@@ -62,6 +62,13 @@
 				'label'=>'Password',
 				'rules'=>'required|matches[password]|trim'
 			)
+		),
+		'role'=>array(
+			array(
+				'field'=>'role',
+				'label'=>'Hak akses',
+				'rules'=>'required'
+			)
 		)
 	);
  ?>

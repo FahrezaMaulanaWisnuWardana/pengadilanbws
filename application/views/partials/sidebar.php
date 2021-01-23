@@ -4,7 +4,7 @@
     <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background:#43aa8b">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?=base_url('dashboard')?>">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?=base_url('beranda')?>">
         <div class="sidebar-brand-icon">
           <img src="<?=base_url('assets/img/icon.png')?>" style="width:40px;">
         </div>
@@ -46,6 +46,19 @@
             <h6 class="collapse-header">Menu Pengguna:</h6>
             <a class="collapse-item <?=($this->uri->segment(1)==="pengguna" && $this->uri->segment(2)===NULL)?'active':''?>" href="<?=base_url('pengguna')?>">Daftar Pengguna</a>
             <a class="collapse-item <?=($this->uri->segment(1)==="pengguna" && $this->uri->segment(2)==="tambah")?'active':''?>" href="<?=base_url('pengguna/tambah')?>">Tambah Pengguna</a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item <?=($this->uri->segment(1)==="hak-akses")?'active':''?>">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseHak" aria-expanded="true" aria-controls="collapseHak">
+          <i class="fas fa-fw fa-bookmark"></i>
+          <span>Hak Akses</span>
+        </a>
+        <div id="collapseHak" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Menu Hak Akses:</h6>
+            <a class="collapse-item <?=($this->uri->segment(1)==="hak-akses" && $this->uri->segment(2)===NULL)?'active':''?>" href="<?=base_url('hak-akses')?>">Daftar Hak Akses</a>
+            <a class="collapse-item <?=($this->uri->segment(1)==="hak-akses" && $this->uri->segment(2)==="tambah")?'active':''?>" href="<?=base_url('hak-akses/tambah')?>">Tambah Hak Akses</a>
           </div>
         </div>
       </li>

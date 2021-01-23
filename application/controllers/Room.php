@@ -5,7 +5,7 @@
 		function __construct()
 		{
 			parent::__construct();
-			$this->load->model('Ruangan_model','rmodel');
+			$this->load->model('Room_model','rmodel');
 		}
 		function index(){
 			$data['judul']="Ruangan";
