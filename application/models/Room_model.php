@@ -1,5 +1,5 @@
 <?php 
-	class Ruangan_model extends CI_model
+	class Room_model extends CI_model
 	{
 		function create($data){
 			$this->db->insert('room',$data);

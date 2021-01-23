@@ -6,6 +6,62 @@
 				'label'=>'Ruangan',
 				'rules'=>'required'
 			)
+		),
+		'pengguna'=>array(
+			array(
+				'field'=>'nama',
+				'label'=>'Nama Lengkap',
+				'rules'=>'required'
+			),
+			array(
+				'field'=>'username',
+				'label'=>'Username',
+				'rules'=>'required'
+			),
+			array(
+				'field'=>'password',
+				'label'=>'Password',
+				'rules'=>'required|trim'
+			),
+			array(
+				'field'=>'repassword',
+				'label'=>'Password',
+				'rules'=>'required|matches[password]|trim'
+			),
+			array(
+				'field'=>'nip',
+				'label'=>'NIP',
+				'rules'=>'numeric'
+			)
+		),
+		'pengguna_upd'=>array(
+			array(
+				'field'=>'nama',
+				'label'=>'Nama Lengkap',
+				'rules'=>'required'
+			),
+			array(
+				'field'=>'username',
+				'label'=>'Username',
+				'rules'=>'required'
+			),
+			array(
+				'field'=>'nip',
+				'label'=>'NIP',
+				'rules'=>'numeric'
+			)
+		),
+		'pengguna_pass_upd'=>array(
+			array(
+				'field'=>'password',
+				'label'=>'Password',
+				'rules'=>'required|trim'
+			),
+			array(
+				'field'=>'repassword',
+				'label'=>'Password',
+				'rules'=>'required|matches[password]|trim'
+			)
 		)
 	);
  ?>

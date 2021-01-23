@@ -36,7 +36,7 @@
           </div>
         </div>
       </li>
-      <li class="nav-item">
+      <li class="nav-item <?=($this->uri->segment(1)==="pengguna")?'active':''?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePengguna" aria-expanded="true" aria-controls="collapsePengguna">
           <i class="fas fa-fw fa-users"></i>
           <span>Pengguna</span>
@@ -44,8 +44,8 @@
         <div id="collapsePengguna" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Menu Pengguna:</h6>
-            <a class="collapse-item" href="#">Daftar Pengguna</a>
-            <a class="collapse-item" href="#">Tambah Pengguna</a>
+            <a class="collapse-item <?=($this->uri->segment(1)==="pengguna" && $this->uri->segment(2)===NULL)?'active':''?>" href="<?=base_url('pengguna')?>">Daftar Pengguna</a>
+            <a class="collapse-item <?=($this->uri->segment(1)==="pengguna" && $this->uri->segment(2)==="tambah")?'active':''?>" href="<?=base_url('pengguna/tambah')?>">Tambah Pengguna</a>
           </div>
         </div>
       </li>

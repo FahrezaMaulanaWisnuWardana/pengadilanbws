@@ -33,7 +33,7 @@
               <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex justify-content-between">
                   <h5>Data Ruangan</h5>
-                  <a href="<?=base_url('ruangan/tambah')?>" class="text-success"><i class="fas fa-plus"></i></a>
+                  <a href="<?=base_url('pengguna/tambah')?>" class="text-success"><i class="fas fa-plus"></i></a>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
@@ -41,29 +41,42 @@
                       <thead>
                         <tr>
                           <th>No.</th>
-                          <th>Nama Ruangan.</th>
-                          <th>Aksi</th>
+                          <th>Nama.</th>
+                          <th>Username.</th>
+                          <th>Jenis Kelamin.</th>
+                          <th>Role.</th>
+                          <th>NIP.</th>
+                          <th>Aksi.</th>
                         </tr>
                       </thead>
                       <tfoot>
                         <tr>
                           <th>No.</th>
-                          <th>Nama Ruangan.</th>
-                          <th>Aksi</th>
+                          <th>Nama.</th>
+                          <th>Username.</th>
+                          <th>Jenis Kelamin.</th>
+                          <th>Role.</th>
+                          <th>NIP.</th>
+                          <th>Aksi.</th>
                         </tr>
                       </tfoot>
                       <tbody>
                         <?php 
                           $no =1;
-                          foreach ($ruangan as $data) {
+                          foreach ($pengguna as $data) {
                             ?>
                             <tr>
                               <td><?=$no++?></td>
-                              <td><?=$data['room_name']?></td>
+                              <td><?=$data['full_name']?></td>
+                              <td><?=$data['username']?></td>
+                              <td><?=($data['gender']==="1")?'Laki-Laki':'Perempuan'?></td>
+                              <td><?=$data['role_name']?></td>
+                              <td><?=$data['nip']?></td>
                               <td>
-                                <?=form_open(base_url('ruangan/hapus'))?>
-                                  <button class="btn btn-danger" name="room" onclick="confirm('Yakin ingin menghapus ruangan?')" type="submit" value="<?=$data['room_id']?>"><i class="fas fa-trash"></i></button>
-                                    <a href="<?=base_url('ruangan/edit/'.$data['room_id'])?>" class="btn btn-success"><i class="fas fa-pen"></i></a>
+                                <?=form_open(base_url('pengguna/hapus'))?>
+                                  <button class="btn btn-danger" name="user" onclick="confirm('Yakin ingin menghapus pengguna?')" type="submit" value="<?=$data['user_id']?>"><i class="fas fa-trash"></i></button>
+                                    <a href="<?=base_url('pengguna/edit/'.$data['user_id'])?>" class="btn btn-success"><i class="fas fa-pen"></i></a>
+                                    <a href="<?=base_url('pengguna/edit/password/'.$data['user_id'])?>" class="btn btn-success"><i class="fas fa-key"></i></a>
                                 <?=form_close()?>
                               </td>
                             </tr>

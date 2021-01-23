@@ -34,16 +34,23 @@
                 </div>
                 <div class="card-body">
                   <?=form_open($this->uri->uri_string())?>
-                    <input type="hidden" name="room" value="<?=$ruangan['room_id']?>">
+                    <input type="hidden" name="id" value="<?=$pengguna['user_id']?>">
                     <div class="form-group">
-                      <label>Nama ruangan</label>
-                      <input type="text" name="ruangan" class="form-control <?= form_error('ruangan') === '' ? '' : 'is-invalid' ?>" value="<?=$ruangan['room_name']?>">
+                      <label>Password</label>
+                      <input type="password" name="password" class="form-control <?= form_error('password') === '' ? '' : 'is-invalid' ?>">
                       <div class="invalid-feedback mt-2">
-                          <?= form_error('ruangan') ?>
+                          <?= form_error('password') ?>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Re Password</label>
+                      <input type="password" name="repassword" class="form-control <?= form_error('repassword') === '' ? '' : 'is-invalid' ?>">
+                      <div class="invalid-feedback mt-2">
+                          <?= form_error('repassword') ?>
                       </div>
                     </div>
                     <button type="submit" class="btn btn-success float-right">
-                      Ubah <i class="fas fa-pen"></i>
+                      Ganti <i class="fas fa-plus"></i>
                     </button>
                   <?=form_close()?>
                 </div>
