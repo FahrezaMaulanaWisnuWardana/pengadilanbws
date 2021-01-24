@@ -62,7 +62,7 @@
                               <td><?=$data['room_name']?></td>
                               <td>
                                 <?=form_open(base_url('ruangan/hapus'))?>
-                                  <button class="btn btn-danger" name="room" onclick="confirm('Yakin ingin menghapus ruangan?')" type="submit" value="<?=$data['room_id']?>"><i class="fas fa-trash"></i></button>
+                                  <button class="btn btn-danger" name="room" onclick="return confirm('Yakin ingin menghapus ruangan?')" type="submit" value="<?=$data['room_id']?>"><i class="fas fa-trash"></i></button>
                                     <a href="<?=base_url('ruangan/edit/'.$data['room_id'])?>" class="btn btn-success"><i class="fas fa-pen"></i></a>
                                 <?=form_close()?>
                               </td>

@@ -33,7 +33,7 @@
               <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex justify-content-between">
                   <h5>Data Ruangan</h5>
-                  <a href="<?=base_url('pengguna/tambah')?>" class="text-success"><i class="fas fa-plus"></i></a>
+                  <a href="<?=base_url('tugas/tambah')?>" class="text-success"><i class="fas fa-plus"></i></a>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
@@ -41,42 +41,32 @@
                       <thead>
                         <tr>
                           <th>No.</th>
-                          <th>Nama.</th>
-                          <th>Username.</th>
-                          <th>Jenis Kelamin.</th>
-                          <th>Role.</th>
-                          <th>NIP.</th>
-                          <th>Aksi.</th>
+                          <th>Nama Tugas.</th>
+                          <th>Ruangan.</th>
+                          <th>Aksi</th>
                         </tr>
                       </thead>
                       <tfoot>
                         <tr>
                           <th>No.</th>
-                          <th>Nama.</th>
-                          <th>Username.</th>
-                          <th>Jenis Kelamin.</th>
-                          <th>Role.</th>
-                          <th>NIP.</th>
-                          <th>Aksi.</th>
+                          <th>Nama Tugas.</th>
+                          <th>Ruangan.</th>
+                          <th>Aksi</th>
                         </tr>
                       </tfoot>
                       <tbody>
                         <?php 
                           $no =1;
-                          foreach ($pengguna as $data) {
+                          foreach ($tugas as $data) {
                             ?>
                             <tr>
                               <td><?=$no++?></td>
-                              <td><?=$data['full_name']?></td>
-                              <td><?=$data['username']?></td>
-                              <td><?=($data['gender']==="1")?'Laki-Laki':'Perempuan'?></td>
-                              <td><?=$data['role_name']?></td>
-                              <td><?=$data['nip']?></td>
+                              <td><?=$data['task']?></td>
+                              <td><?=$data['room_name']?></td>
                               <td>
-                                <?=form_open(base_url('pengguna/hapus'))?>
-                                  <button class="btn btn-danger" name="user" onclick="return confirm('Yakin ingin menghapus pengguna?')" type="submit" value="<?=$data['user_id']?>"><i class="fas fa-trash"></i></button>
-                                    <a href="<?=base_url('pengguna/edit/'.$data['user_id'])?>" class="btn btn-success"><i class="fas fa-pen"></i></a>
-                                    <a href="<?=base_url('pengguna/edit/password/'.$data['user_id'])?>" class="btn btn-success"><i class="fas fa-key"></i></a>
+                                <?=form_open(base_url('tugas/hapus'))?>
+                                  <button class="btn btn-danger" name="task" onclick="return confirm('Yakin ingin menghapus tugas di ruangan <?=$data['room_name']?>?')" type="submit" value="<?=$data['task_id']?>"><i class="fas fa-trash"></i></button>
+                                  <a href="<?=base_url('tugas/edit/'.$data['task_id'])?>" class="btn btn-success"><i class="fas fa-pen"></i></a>
                                 <?=form_close()?>
                               </td>
                             </tr>

@@ -62,7 +62,7 @@
                               <td><?=$data['role_name']?></td>
                               <td>
                                 <?=form_open(base_url('hak-akses/hapus'))?>
-                                  <button class="btn btn-danger" name="role" onclick="confirm('Yakin ingin menghapus hak akses?')" type="submit" value="<?=$data['id_role']?>"><i class="fas fa-trash"></i></button>
+                                  <button class="btn btn-danger" name="role" onclick="return confirm('Yakin ingin menghapus hak akses?')" type="submit" value="<?=$data['id_role']?>"><i class="fas fa-trash"></i></button>
                                   <a href="<?=base_url('hak-akses/edit/'.$data['id_role'])?>" class="btn btn-success"><i class="fas fa-pen"></i></a>
                                 <?=form_close()?>
                               </td>

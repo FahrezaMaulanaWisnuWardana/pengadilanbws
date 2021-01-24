@@ -69,6 +69,13 @@
 				'label'=>'Hak akses',
 				'rules'=>'required'
 			)
+		),
+		'tugas'=>array(
+			array(
+				'field'=>'tugas',
+				'label'=>'Tugas',
+				'rules'=>'required'
+			)
 		)
 	);
  ?>
