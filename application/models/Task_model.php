@@ -6,11 +6,11 @@
 			$this->db->insert($this->_tb,$data);
 			return $this->db->affected_rows();
 		}
-		function read($task_id=null){
+		function read($id=null){
 			$this->db->select('*');
 			$this->db->from($this->_tb);
 			$this->db->join('room',$this->_tb.'.room_id = room.room_id');
-			($task_id!=null)?$this->db->where(compact('task_id')):'';
+			($id!=null)?$this->db->where($id):'';
 			return $this->db->get();
 		}
 		function delete($task_id){

@@ -29,11 +29,14 @@
           <!-- Content Row -->
           <div class="row">
             <div class="col-12">
+            <div class="d-flex justify-content-between mb-3">
+              <a href="<?=base_url('ruangan/pengguna')?>" class="btn btn-success"><i class="fas fa-chevron-left"></i></a>
+              <a href="<?=base_url('ruangan/pengguna/tambah/'.$ruangan['room_id'])?>" class="btn btn-success"><i class="fas fa-plus"></i></a>
+            </div>
             <?php if ($this->session->flashdata('message')) $this->load->view('partials/toast') ?>
               <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex justify-content-between">
-                  <h5>Data Ruangan</h5>
-                  <a href="<?=base_url('hak-akses/tambah')?>" class="btn btn-success"><i class="fas fa-plus"></i></a>
+                  <h5><?=$ruangan['room_name']?></h5>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
@@ -41,29 +44,33 @@
                       <thead>
                         <tr>
                           <th>No.</th>
-                          <th>Nama Hak akses.</th>
+                          <th>Akun.</th>
+                          <th>Nama Ruangan.</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>
                       <tfoot>
                         <tr>
                           <th>No.</th>
-                          <th>Nama Hak akses.</th>
+                          <th>Akun.</th>
+                          <th>Nama Ruangan.</th>
                           <th>Aksi</th>
                         </tr>
                       </tfoot>
                       <tbody>
                         <?php 
                           $no =1;
-                          foreach ($role as $data) {
+                          foreach ($user as $data) {
                             ?>
                             <tr>
                               <td><?=$no++?></td>
-                              <td><?=$data['role_name']?></td>
+                              <td><?=$data['full_name']?></td>
+                              <td><?=$data['room_name']?></td>
                               <td>
-                                <?=form_open(base_url('hak-akses/hapus'))?>
-                                  <button class="btn btn-danger" name="role" onclick="return confirm('Yakin ingin menghapus hak akses?')" type="submit" value="<?=$data['id_role']?>"><i class="fas fa-trash"></i></button>
-                                  <a href="<?=base_url('hak-akses/edit/'.$data['id_role'])?>" class="btn btn-success"><i class="fas fa-pen"></i></a>
+                                <?=form_open(base_url('ruangan/pengguna/hapus'))?>
+                                  <input type="hidden" name="room" value="<?=$data['room_id']?>">
+                                  <button class="btn btn-danger" name="user" onclick="return confirm('Yakin ingin menghapus akun di ruangan ini?')" type="submit" value="<?=$data['user_room_id']?>"><i class="fas fa-trash"></i></button>
+                                    <a href="<?=base_url('ruangan/pengguna/edit/'.$data['user_room_id'])?>" class="btn btn-success"><i class="fas fa-pen"></i></a>
                                 <?=form_close()?>
                               </td>
                             </tr>

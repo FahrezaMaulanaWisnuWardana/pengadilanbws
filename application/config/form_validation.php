@@ -76,6 +76,13 @@
 				'label'=>'Tugas',
 				'rules'=>'required'
 			)
+		),
+		'pengguna_room'=>array(
+			array(
+				'field'=>'pengguna',
+				'label'=>'Akun',
+				'rules'=>'required'
+			)
 		)
 	);
  ?>

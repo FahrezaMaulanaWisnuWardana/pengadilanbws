@@ -33,7 +33,7 @@
               <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex justify-content-between">
                   <h5>Data Ruangan</h5>
-                  <a href="<?=base_url('ruangan/tambah')?>" class="text-success"><i class="fas fa-plus"></i></a>
+                  <a href="<?=base_url('ruangan/tambah')?>" class="btn btn-success"><i class="fas fa-plus"></i></a>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">

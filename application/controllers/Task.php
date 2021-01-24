@@ -48,10 +48,10 @@
 	        ));
 	        redirect('tugas');
 		}
-		function update($id){
+		function update($task_id){
 			if($this->form_validation->run('tugas'))$this->_update();
 			$data['judul'] = "Ubah tugas";
-			$data['tugas'] = $this->tmodel->read($id)->row_array();
+			$data['tugas'] = $this->tmodel->read(compact('task_id'))->row_array();
 			$data['room'] = $this->rmodel->read()->result_array();
 			$this->load->view('dashboard/task/update-task',$data);
 		}
@@ -72,6 +72,16 @@
 		        ));
 			}
 			redirect('tugas');
+		}
+		function room($room_id=null){
+			$data['judul']="Tugas per ruangan";
+			if ($room_id!=null) {
+				$data['tugas'] = $this->tmodel->read(['room.room_id'=>$room_id])->result_array();
+				$this->load->view('dashboard/task/room-task-detail',$data);
+			}else{
+				$data['ruangan'] = $this->rmodel->read()->result_array();
+				$this->load->view('dashboard/task/room-task',$data);
+			}
 		}
 	}
  ?>

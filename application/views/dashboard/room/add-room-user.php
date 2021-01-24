@@ -30,23 +30,24 @@
             <div class="col-12">
               <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex justify-content-between">
-                  <h5>Tambah Ruangan</h5>
+                  <h5><?=$judul.' '.$ruangan['room_name']?></h5>
                   <span id="tambah" class="btn btn-success"><i class="fas fa-plus"></i></span>
                 </div>
                 <div class="card-body">
-                  <?=form_open('tugas/simpan', array('class' => 'needs-validation', 'novalidate' => true))?>
+                  <?=form_open('ruangan/pengguna/simpan', array('class' => 'needs-validation', 'novalidate' => true))?>
+                    <input type="hidden" name="id" value="<?=$ruangan['room_id']?>">
                     <div class="form-group">
-                      <label>Tugas</label>
-                      <input type="text" name="tugas[]" required class="form-control">
-                      <div class="invalid-feedback mt-2">Tugas harus diisi.</div>
-                    </div>
-                    <div class="form-group">
-                      <label>Ruangan</label>
-                        <select class="form-control" name="ruangan[]">
-                          <?php foreach ($room as $data): ?>
-                            <option value="<?=$data['room_id']?>"><?=$data['room_name']?></option>
-                          <?php endforeach ?>
-                        </select>
+                      <label>Pengguna</label>
+                      <select class="form-control" name="pengguna[]">
+                        <option>Silahkan pilih akun</option>
+                        <?php 
+                          foreach ($pengguna as $data) {
+                              ?>
+                                <option value="<?=$data['user_id']?>"><?=$data['full_name']?></option>
+                              <?php
+                          }
+                         ?>
+                      </select>
                     </div>
                     <div id="appendformtask"></div>
                     <button type="submit" class="btn btn-success float-right">
@@ -69,25 +70,32 @@
       let wrapper = $('form')
       let max = 10
       let start = 1
+      let arr = []
       $("#tambah").on('click',function(){
         if (start<max) {
         start++
+          let sel = '<select class="form-control" name="pengguna[]">'
+                        + '<option>Silahkan pilih akun</option>'
+                              <?php 
+                                foreach ($pengguna as $data) {
+                                    ?>
+                        +             '<option value="<?=$data['user_id']?>"><?=$data['full_name']?></option>'
+                                    <?php
+                                }
+                               ?>
+                        +'</select>'
           let formtask ='<div>'
-                        +'<span class="mb-3 btn btn-danger rmvBtn"><i class="fas fa-times"></i></span>'
-                        +'<div class="form-group">'
-                        +'<label>Tugas</label>'
-                        +'<input type="text" name="tugas[]" class="form-control" required>'
-                        +'<div class="invalid-feedback mt-2">Tugas harus diisi.</div>'
-                        +'</div>'
-                        +'<div class="form-group">'
-                        +'<label>Ruangan</label>'
-                        +'  <select class="form-control" name="ruangan[]">'
-                        +'    <?php foreach ($room as $data): ?>'
-                        +'      <option value="<?=$data['room_id']?>"><?=$data['room_name']?></option>'
-                        +'    <?php endforeach ?>'
-                        +'  </select>'
+                        + '<span class="mb-3 btn btn-danger rmvBtn"><i class="fas fa-times"></i></span>'
+                        + '<div class="form-group">'
+                        + '<label>Pengguna</label>'+sel
                         +'</div>'
                         +'</div>'
+          $('select').each(function(){
+            arr.push($(this).val())
+          })
+          arr.forEach(function(item,index){
+            $("option[value='"+item+"']",$(sel)[0]).val(item).attr('disabled','disabled')
+          })
           $("#appendformtask").append(formtask)
         }else{
           alert("maksimal 10 saja")
@@ -98,6 +106,13 @@
         $(this).parent('div').remove()
         start--
       })
+      $(document).on('change','select',function(){
+          let sel = $(this).children("option:selected").val()
+          $("select").not(this).each(function(){
+            console.log(this)
+            $("option[value='"+sel+"']",this).val(sel).attr('disabled','disabled')
+          })
+      });
     })
   </script>
 </html>

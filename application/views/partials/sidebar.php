@@ -33,7 +33,7 @@
             <h6 class="collapse-header">Menu Ruangan:</h6>
             <a class="collapse-item <?=($this->uri->segment(1)==="ruangan" && $this->uri->segment(2)===NULL)?'active text-success':''?>" href="<?=base_url('ruangan')?>">Daftar Ruangan</a>
             <a class="collapse-item <?=($this->uri->segment(1)==="ruangan" && $this->uri->segment(2)==="tambah")?'active text-success':''?>" href="<?=base_url('ruangan/tambah')?>">Tambah Ruangan</a>
-            <a class="collapse-item <?=($this->uri->segment(1)==="ruangan" && $this->uri->segment(2)==="pengguna")?'active text-success':''?>" href="<?=base_url('ruangan/tambah')?>">Ruangan Pengguna</a>
+            <a class="collapse-item <?=($this->uri->segment(1)==="ruangan" && $this->uri->segment(2)==="pengguna")?'active text-success':''?>" href="<?=base_url('ruangan/pengguna')?>">Ruangan Pengguna</a>
           </div>
         </div>
       </li>
@@ -73,7 +73,7 @@
             <h6 class="collapse-header">Menu Tugas:</h6>
             <a class="collapse-item <?=($this->uri->segment(1)==="tugas" && $this->uri->segment(2)===NULL)?'active text-success':''?>" href="<?=base_url('tugas')?>">Daftar Tugas</a>
             <a class="collapse-item <?=($this->uri->segment(1)==="tugas" && $this->uri->segment(2)==="tambah")?'active text-success':''?>" href="<?=base_url('tugas/tambah')?>">Tambah Tugas</a>
-            <a class="collapse-item <?=($this->uri->segment(1)==="tugas" && $this->uri->segment(2)==="ruangan")?'active text-success':''?>" href="<?=base_url('tugas/tambah')?>">Tugas per ruangan</a>
+            <a class="collapse-item <?=($this->uri->segment(1)==="tugas" && $this->uri->segment(2)==="ruangan")?'active text-success':''?>" href="<?=base_url('tugas/ruangan')?>">Tugas per ruangan</a>
           </div>
         </div>
       </li>
