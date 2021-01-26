@@ -5,6 +5,7 @@
 		function __construct()
 		{
 			parent::__construct();
+			is_logged_in();
 			$this->load->model('User_model','umodel');
 			$this->load->model('Role_model','rolemod');
 		}
@@ -20,26 +21,35 @@
 			$this->load->view('dashboard/user/add-user',$data);
 		}
 		protected function _save(){
-			$data = $this->umodel->create(
-				array(
-					'full_name'=>$this->input->post('nama',true),
-					'username' =>$this->input->post('username',true),
-					'password' =>password_hash($this->input->post('password',true), PASSWORD_BCRYPT),
-					'gender'   =>$this->input->post('jk',true),
-					'id_role'  =>$this->input->post('role',true),
-					'nip'	   =>$this->input->post('nip',true)
-				)
-			);
-			if ($data>0) {
+			$username = $this->input->post('username',true);
+			$user = $this->umodel->read(compact('username'))->num_rows();
+			if ($user>0) {
 		        $this->session->set_flashdata(array(
-		            'message' => 'Berhasil tambah pengguna',
-		            'type' => 'success'
-		        ));
-			}else{
-		        $this->session->set_flashdata(array(
-		            'message' => 'Gagal tambah pengguna',
+		            'message' => 'Username telah terpakai',
 		            'type' => 'danger'
 		        ));
+			}else{
+				$data = $this->umodel->create(
+					array(
+						'full_name'=>$this->input->post('nama',true),
+						'username' =>$this->input->post('username',true),
+						'password' =>password_hash($this->input->post('password',true), PASSWORD_BCRYPT),
+						'gender'   =>$this->input->post('jk',true),
+						'id_role'  =>$this->input->post('role',true),
+						'nip'	   =>$this->input->post('nip',true)
+					)
+				);
+				if ($data>0) {
+			        $this->session->set_flashdata(array(
+			            'message' => 'Berhasil tambah pengguna',
+			            'type' => 'success'
+			        ));
+				}else{
+			        $this->session->set_flashdata(array(
+			            'message' => 'Gagal tambah pengguna',
+			            'type' => 'danger'
+			        ));
+				}
 			}
 			redirect('pengguna');
 		}
@@ -60,26 +70,60 @@
 			$this->load->view('dashboard/user/update-user',$data);
 		}
 		protected function _update(){
-			$data = $this->umodel->update(
-				array(
-					'full_name'=>$this->input->post('nama',true),
-					'username' =>$this->input->post('username',true),
-					'gender'   =>$this->input->post('jk',true),
-					'id_role'  =>$this->input->post('role',true),
-					'nip'	   =>$this->input->post('nip',true),
-					'updated_at'=>date("Y-m-d H:i:s")
-				),$this->input->post('id')
-			);
-			if ($data>0) {
-		        $this->session->set_flashdata(array(
-		            'message' => 'Berhasil ubah pengguna',
-		            'type' => 'success'
-		        ));
+			$username = $this->input->post('username',true);
+			$user = $this->umodel->read(compact('username'))->num_rows();
+			$uname = $this->umodel->read(compact('username'))->row_array();
+			if ($username === $uname['username']) {
+				$data = $this->umodel->update(
+					array(
+						'full_name'=>$this->input->post('nama',true),
+						'username' =>$this->input->post('username',true),
+						'gender'   =>$this->input->post('jk',true),
+						'id_role'  =>$this->input->post('role',true),
+						'nip'	   =>$this->input->post('nip',true),
+						'updated_at'=>date("Y-m-d H:i:s")
+					),$this->input->post('id')
+				);
+				if ($data>0) {
+			        $this->session->set_flashdata(array(
+			            'message' => 'Berhasil ubah pengguna',
+			            'type' => 'success'
+			        ));
+				}else{
+			        $this->session->set_flashdata(array(
+			            'message' => 'Gagal ubah pengguna',
+			            'type' => 'danger'
+			        ));
+				}
 			}else{
-		        $this->session->set_flashdata(array(
-		            'message' => 'Gagal ubah pengguna',
-		            'type' => 'danger'
-		        ));
+				if ($user>0) {
+			        $this->session->set_flashdata(array(
+			            'message' => 'Username telah terpakai',
+			            'type' => 'danger'
+			        ));
+				}else{
+					$data = $this->umodel->update(
+						array(
+							'full_name'=>$this->input->post('nama',true),
+							'username' =>$this->input->post('username',true),
+							'gender'   =>$this->input->post('jk',true),
+							'id_role'  =>$this->input->post('role',true),
+							'nip'	   =>$this->input->post('nip',true),
+							'updated_at'=>date("Y-m-d H:i:s")
+						),$this->input->post('id')
+					);
+					if ($data>0) {
+				        $this->session->set_flashdata(array(
+				            'message' => 'Berhasil ubah pengguna',
+				            'type' => 'success'
+				        ));
+					}else{
+				        $this->session->set_flashdata(array(
+				            'message' => 'Gagal ubah pengguna',
+				            'type' => 'danger'
+				        ));
+					}
+				}
 			}
 			redirect('pengguna');
 		}

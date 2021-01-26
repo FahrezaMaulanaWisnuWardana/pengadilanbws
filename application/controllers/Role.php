@@ -5,6 +5,7 @@
 		function __construct()
 		{
 			parent::__construct();
+			is_logged_in();
 			$this->load->model('Role_model','rmodel');
 		}
 		function index(){

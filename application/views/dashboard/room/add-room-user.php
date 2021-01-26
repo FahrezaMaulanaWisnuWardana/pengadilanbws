@@ -39,7 +39,7 @@
                     <div class="form-group">
                       <label>Pengguna</label>
                       <select class="form-control" name="pengguna[]">
-                        <option>Silahkan pilih akun</option>
+                        <option disabled selected>Silahkan pilih akun</option>
                         <?php 
                           foreach ($pengguna as $data) {
                               ?>
@@ -70,12 +70,15 @@
       let wrapper = $('form')
       let max = 10
       let start = 1
-      let arr = []
       $("#tambah").on('click',function(){
         if (start<max) {
         start++
-          let sel = '<select class="form-control" name="pengguna[]">'
-                        + '<option>Silahkan pilih akun</option>'
+          let formtask ='<div>'
+                        + '<span class="mb-3 btn btn-danger rmvBtn"><i class="fas fa-times"></i></span>'
+                        + '<div class="form-group">'
+                        + '<label>Pengguna</label>'
+                        +'<select class="form-control appended-select" name="pengguna[]">'
+                        + '<option disabled selected>Silahkan pilih akun</option>'
                               <?php 
                                 foreach ($pengguna as $data) {
                                     ?>
@@ -84,19 +87,19 @@
                                 }
                                ?>
                         +'</select>'
-          let formtask ='<div>'
-                        + '<span class="mb-3 btn btn-danger rmvBtn"><i class="fas fa-times"></i></span>'
-                        + '<div class="form-group">'
-                        + '<label>Pengguna</label>'+sel
                         +'</div>'
                         +'</div>'
-          $('select').each(function(){
-            arr.push($(this).val())
-          })
-          arr.forEach(function(item,index){
-            $("option[value='"+item+"']",$(sel)[0]).val(item).attr('disabled','disabled')
+          let selected = [];
+          $('select').map(function () {
+            $(this).val() && selected.push($(this).val())
           })
           $("#appendformtask").append(formtask)
+
+          selected.forEach((value, index) => {
+             $('.appended-select').find(`option[value="${value}"]`).attr('disabled', true);
+          })
+          $('.appended-select').removeClass('appended-select')
+          
         }else{
           alert("maksimal 10 saja")
         }
@@ -106,13 +109,21 @@
         $(this).parent('div').remove()
         start--
       })
-      $(document).on('change','select',function(){
-          let sel = $(this).children("option:selected").val()
-          $("select").not(this).each(function(){
-            console.log(this)
-            $("option[value='"+sel+"']",this).val(sel).attr('disabled','disabled')
+
+        $(document).on('change', 'select', function () {
+          let selected = [];
+          $('select').map(function () {
+            $(this).val() && selected.push($(this).val())
           })
-      });
+
+          $('select').not($(this)).each(function (index, elem) {
+            selected.forEach((value, index) => {
+              if ($(elem).val() !== value) {
+                $(elem).find(`option[value="${value}"]`).attr('disabled', 1);
+              }
+            })
+          });
+        })
     })
   </script>
 </html>

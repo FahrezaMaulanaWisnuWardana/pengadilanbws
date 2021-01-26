@@ -5,6 +5,7 @@
 		function __construct()
 		{
 			parent::__construct();
+			is_logged_in();
 			$this->load->model('Room_model','rmodel');
 			$this->load->model('User_model','umodel');
 		}
@@ -145,6 +146,11 @@
 				}
 			}
 			redirect('ruangan/pengguna/'.$this->input->post('room',true));
+		}
+		function cek_room_user(){
+			$data = $this->rmodel->read_room_user()->result_array();
+			$arr = array('item'=>$data);
+			echo json_encode($arr);
 		}
 	}
  ?>

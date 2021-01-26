@@ -4,7 +4,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
 $route['beranda'] = 'dashboard';
+$route['beranda/tugas/(:num)/(:num)'] = 'dashboard/task/$1/$2';
+$route['beranda/simpan-tugas'] = 'dashboard/save';
+$route['beranda/cek-tugas/(:num)'] = 'dashboard/cek/$1';
+$route['laporan'] = 'task';
+
 $route['ruangan'] = 'room';
 $route['ruangan/tambah'] = 'room/add';
 $route['ruangan/hapus'] = 'room/delete';
@@ -15,6 +21,7 @@ $route['ruangan/pengguna/tambah/(:num)'] = 'room/add_user/$1';
 $route['ruangan/pengguna/simpan'] = 'room/save_user';
 $route['ruangan/pengguna/edit/(:num)'] = 'room/update_user/$1';
 $route['ruangan/pengguna/hapus'] = 'room/delete_user';
+$route['ruangan/validasi-akun'] = 'room/cek_room_user';
 $route['pengguna']='user';
 $route['pengguna/tambah']='user/add';
 $route['pengguna/hapus']='user/delete';
@@ -31,3 +38,4 @@ $route['tugas/hapus'] = 'task/delete';
 $route['tugas/edit/(:num)'] = 'task/update/$1';
 $route['tugas/ruangan'] = 'task/room';
 $route['tugas/ruangan/(:num)'] = 'task/room/$1';
+$route['keluar'] = 'login/logout';

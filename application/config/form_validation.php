@@ -83,6 +83,18 @@
 				'label'=>'Akun',
 				'rules'=>'required'
 			)
+		),
+		'login'=>array(
+			array(
+				'field'=>'username',
+				'label'=>'username',
+				'rules'=>'required'
+			),
+			array(
+				'field'=>'password',
+				'label'=>'password',
+				'rules'=>'required|trim'
+			)
 		)
 	);
  ?>

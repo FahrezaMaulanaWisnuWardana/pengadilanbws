@@ -63,4 +63,26 @@
       </div>
       <!-- End of Main Content -->
 	<?php $this->load->view('templates/footer-dashboard') ?>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $.ajax({
+        url:"<?=base_url('ruangan/validasi-akun')?>",
+        method:"POST",
+        dataType:'json',
+        success:function(data){
+          let arr = []
+          for (var i = 0; i < data.item.length; i++) {
+            if (data.item[i].user_id!=="<?=$ruangan['user_id']?>") {
+              arr.push(data.item[i].user_id)
+            }
+          }
+          $('option').each(function(){
+            if (arr.includes($(this).val())) {
+              $(this).prop('disabled','disabled')
+            }
+          })
+        }
+      })
+    })
+  </script>
 </html>

@@ -37,5 +37,13 @@
 			$this->db->update('user_room',$data,compact('user_room_id'));
 			return $this->db->affected_rows();	
 		}
+		function room_by_user($user_id){
+			$this->db->select('*');
+			$this->db->from('room r');
+			$this->db->join('user_room ur','r.room_id = ur.room_id','left');
+			$this->db->where(compact('user_id'));
+			$this->db->group_by('r.room_id');
+			return $this->db->get();
+		}
 	}
  ?>
