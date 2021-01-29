@@ -8,7 +8,10 @@ $route['translate_uri_dashes'] = FALSE;
 $route['beranda'] = 'dashboard';
 $route['beranda/tugas/(:num)/(:num)'] = 'dashboard/task/$1/$2';
 $route['beranda/simpan-tugas'] = 'dashboard/save';
-$route['beranda/cek-tugas/(:num)'] = 'dashboard/cek/$1';
+$route['beranda/cek-tugas'] = 'dashboard/cek';
+$route['beranda/cek-gambar'] = 'dashboard/cek_gambar';
+$route['beranda/update-tugas'] = 'dashboard/update';
+$route['beranda/update-nilai'] = 'dashboard/update_score';
 $route['laporan'] = 'task';
 
 $route['ruangan'] = 'room';
