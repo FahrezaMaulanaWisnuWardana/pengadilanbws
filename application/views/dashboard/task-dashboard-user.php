@@ -36,108 +36,38 @@
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
-                    <?=form_open('beranda/simpan-tugas',array('enctype'=>'multipart/form-data'))?>
                     <table class="table table-bordered text-center" width="100%" cellspacing="0">
                       <thead>
-                        <tr>
-                          <th>No.</th>
-                          <th>Tugas.</th>
-                          <th>Aksi</th>
-                          <th>Eviden.</th>
-                          <?php 
-                            if ($this->session->role_name==="pimpinan") {
-                              ?>
-                              <th>Nilai</th>
-                              <?php
-                            }
-                           ?>
-                        </tr>
+                        <th>No.</th>
+                        <th>Tugas.</th>
+                        <th>Aksi.</th>
+                        <th>Foto</th>
                       </thead>
                       <tbody>
                         <?php
-                          $no =1;
-                          foreach ($tugas as $data) {
-                            ?>
+                          $no=0;
+                            foreach ($tugas as $data) {
+                              $no++;
+                              ?>
                               <tr>
-                                <td class="align-middle"><?=$no++?></td>
-                                <td class="align-middle"><?=$data['task']?></td>
-                                <td class="align-middle">
-                                  <div class="form-group">
-                                    <input type="hidden" name="urid[]" value="<?=$data['user_room_id']?>">
-                                    <input type="checkbox" name="tugas[]" value="<?=$data['task_id']?>" style="transform: scale(2.5);" class="checkbox mr-3" required>
-                                    <?php 
-                                        if ($this->session->role_name!=="pimpinan") {
-                                          ?>
-                                            <button class="btn btn-success edit" type="button" disabled><i class="fas fa-pen"></i></button>
-                                          <?php
-                                        }
-                                     ?>
-                                  </div>
-                                </td>
-                                <td class="align-middle">
-                                <input type="hidden" class="id" value="<?=$data['user_room_id']?>">
-                                <?php 
-                                  if ($this->session->role_name==="pimpinan") {
-                                    ?>
-                                      <button type="button" class="btn btn-primary lihat" data-id="<?=$data['task_id']?>">
-                                        Lihat foto
-                                      </button>
-                                    <?php
-                                  }else{
-                                    ?>
-                                      <input type="file" name="foto[]" capture="camera" class="img" accept="image/*">
-                                      <button type="button" data-id="<?=$data['task_id']?>" class="btn btn-success lihat" style="visibility: hidden;">Lihat gambar</button>
-                                    <?php
-                                  }
-                                 ?>
-                                </td>
-                                <?php 
-                                  if ($this->session->role_name==="pimpinan") {
-                                    ?>
-                                    <td class="align-middle">
-                                      <div class="form-group">
-                                        <select class="form-control nilai"  onFocus="this.oldIndex = this.selectedIndex" onChange="if(!confirm('Beri nilai untuk tugas ini?'))this.selectedIndex = this.oldIndex" data-id="<?=$data['task_id']?>">
-                                          <option value="1">Pilih nilai</option>
-                                          <option value="4">Hijau</option>
-                                          <option value="3">Kuning</option>
-                                          <option value="2">Merah</option>
-                                        </select>
-                                      </div>
-                                    </td>
-                                    <?php
-                                  }
-                                 ?>
+                                <input type="hidden" name="room_id[]" value="<?=$data['room_id']?>">
+                                <input type="hidden" name="task_id[]" value="<?=$data['task_id']?>">
+                                <td><?=$no?></td>
+                                <td><?=$data['task']?></td>
+                                <td><button class="btn btn-success eviden" data-id="<?=$data['task_id']?>">Upload Eviden</button></td>
+                                <td class="task" data-id="<?=$data['task_id']?>"></td>
                               </tr>
-                            <?php
-                          }
+                              <?php 
+                            }
                          ?>
                       </tbody>
                       <tfoot>
-                        <tr>
-                          <th>No.</th>
-                          <th>Tugas.</th>
-                          <th>Aksi</th>
-                          <th>Eviden.</th>
-                          <?php 
-                            if ($this->session->role_name==="pimpinan") {
-                              ?>
-                              <th>Nilai</th>
-                              <?php
-                            }
-                           ?>
-                        </tr>
+                        <th>No.</th>
+                        <th>Tugas.</th>
+                        <th>Aksi.</th>
+                        <th>Foto</th>
                       </tfoot>
                     </table>
-                    <?php 
-                        if ($this->session->role_name!=="pimpinan") {
-                          ?>
-                            <div class="text-center">
-                              <button type="submit" class="btn w-25 btn-success" id="btn"><i class="fas fa-plus"></i></button>
-                            </div>
-                          <?php
-                        }
-                     ?>
-                    <?=form_close()?>
                   </div>
                 </div>
               </div>
@@ -158,149 +88,136 @@
               </button>
             </div>
             <div class="modal-body cek-tugas">
-              ...
+              <?=form_open('beranda/simpan-tugas',array('enctype'=>'multipart/form-data'))?>
+                <div class="form-group">
+                  <label>Username</label>
+                  <input type="text" disabled value="<?=$this->session->username?>" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Tugas</label>
+                  <input type="text" disabled class="form-control tugas">
+                  <input type="hidden" name="task_id" class="tugas-hide">
+                </div>
+                <div class="form-group">
+                  <label>Ruangan</label>
+                  <input type="text" readonly name="ruangan" class="form-control ruangan">
+                  <input type="hidden" name="room_id" class="ruang-hide">
+                </div>
+                <div class="form-group">
+                  <label>Eviden</label>
+                  <input type="file" name="foto[]" class="img" accept="image/*" multiple="true">
+                </div>
+                <button type="submit" class="btn btn-success form-control">Tambah Data</button>
+              <?=form_close()?>
             </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="edit-tugas" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Eviden</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body cek-tugas">
+              <?=form_open('beranda/edit-tugas',array('enctype'=>'multipart/form-data'))?>
+                <div class="form-group">
+                  <label>Tugas</label>
+                  <input type="text" disabled class="form-control tugas">
+                  <input type="hidden" name="task_id" class="tugas-hide">
+                </div>
+                <div class="form-group">
+                  <label>Ruangan</label>
+                  <input type="text" readonly name="ruangan" class="form-control ruangan">
+                  <input type="hidden" name="room_id" class="ruang-hide">
+                </div>
+                <div class="form-group">
+                  <label>Eviden</label>
+                  <input type="file" name="foto[]" class="img" accept="image/*" multiple="true">
+                </div>
+                <button type="submit" class="btn btn-success form-control">Ubah Data</button>
+              <?=form_close()?>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="cek-eviden" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Eviden</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body cek-eviden"></div>
           </div>
         </div>
       </div>
       <!-- End of Main Content -->
 	<?php $this->load->view('templates/footer-dashboard') ?>
   <script type="text/javascript">
-    $(document).ready(function(){
-
-      var today = new Date();
-      var dd = String(today.getDate()).padStart(2, '0');
-      
+    $('.task').each(function(){
+      let tag = $(this)
+        $.ajax({
+          url:"<?=base_url('beranda/cek-gambar')?>",
+          method:"POST",
+          data:{'id':tag.data('id')},
+          dataType:'json',
+          success:function(data){
+            let imageHtml=''
+            for (var i = 0; i < data.item.length; i++) {
+              imageHtml += '<img src="<?=base_url()?>assets/img/eviden/'+data.item[i]+'" style="width:50px;" class="d-inline ml-1 mt-1 img-eviden">'
+            }
+            if (parseInt(data.id) === tag.data('id')){
+              $('.eviden').each(function(){
+                if($(this).data('id') === parseInt(data.id)){
+                  $(this).after('<button class="btn btn-success edit" data-id="'+data.id+'"><i class="fas fa-pen"></i></button>')
+                  $(this).remove()
+                }
+              })
+              tag.html(imageHtml)
+            }
+          }
+        })
+    })
+    $(document).on('click','.img-eviden',function(){
+      $('#cek-eviden').modal('show')
+      let imgsrc = $(this).attr('src')
+      $('.cek-eviden').html('<img src="'+imgsrc+'" class="img-fluid">')   
+    })
+    $(document).on('click','.edit',function(){
+      $('#edit-tugas').modal('show')
       $.ajax({
-        url:"<?=base_url('beranda/cek-tugas')?>",
+        url:"<?=base_url('beranda/tugas-ruangan')?>",
+        data:{'id':$(this).data('id')},
         method:"POST",
         dataType:'json',
         success:function(data){
-          for (var i = 0; i < data.item.length; i++) {
-            if (new Date(data.item[i].date).getDate()===parseInt(dd)){
-              $('.img').prop('disabled',true)
-              $('.edit').prop('disabled',false)
-              $('#btn').prop('disabled',true)
-              $('.checkbox').prop('disabled',true)
-              $('.checkbox').prop('checked',true)
-              <?=($this->session->role_name!=="pimpinan")?"$('.lihat').css({'visibility':'visible'})":''?>
-            }
-          }
+          $('.tugas').val(data.item.task)
+          $('.tugas-hide').val(data.item.task_id)
+          $('.ruangan').val(data.item.room_name)
+          $('.ruang-hide').val(data.item.room_id)
         }
       })
-      $('.lihat').on('click',function(){
-          $.ajax({
-            url:"<?=base_url('beranda/cek-gambar')?>",
-            method:"POST",
-            data:{'id':$(this).data('id')},
-            dataType:'json',
-            success:function(data){
-              if (data.item!==null){
-                $('#cek-tugas').modal('show')
-                if(data.item.eviden===null){
-                  $('.cek-tugas').html('<span class="text-center mt-5">Gambar kosong</span>')
-                }else{
-                  $('.cek-tugas').html('<img src="<?=base_url()?>assets/img/eviden/'+data.item.eviden+'" class="img-fluid">')
-                }
-              }
-            }
-          })
+    })
+    $('.eviden').on('click',function(){
+      $('#cek-tugas').modal('show')
+      $.ajax({
+        url:"<?=base_url('beranda/tugas-ruangan')?>",
+        data:{'id':$(this).data('id')},
+        method:"POST",
+        dataType:'json',
+        success:function(data){
+          $('.tugas').val(data.item.task)
+          $('.tugas-hide').val(data.item.task_id)
+          $('.ruangan').val(data.item.room_name)
+          $('.ruang-hide').val(data.item.room_id)
+        }
       })
-      $('.edit').on('click',function(){
-        let checkbox = $(this).prev('.checkbox')
-        let fileImg = $(this).closest('td').next('td').find('.img')
-        $(this).prop('disabled',true)
-        checkbox.prop('disabled',false)
-        checkbox.on('click',function(){
-          if (confirm('Ketika gambar diganti maka gambar sebelumnya akan hilang')){
-            if ($(this).is(':checked')===true){
-              $.ajax({
-                url:"<?=base_url('beranda/cek-tugas')?>",
-                method:"POST",
-                dataType:'json',
-                success:function(data){
-                  for (var i = 0; i < data.item.length; i++) {
-                    if (new Date(data.item[i].date).getDate()===parseInt(dd) && data.item[i].task_id === checkbox.val()){
-                      fileImg.attr('data-task-id',data.item[i].id_user_task)
-                    }
-                  }
-                }
-              })
-              fileImg.prop('disabled',false)
-              fileImg.on('change',function(){
-              let formData = new FormData()
-              formData.append('foto',fileImg[0].files[0])
-              formData.append('id',fileImg.data('task-id'))
-                $.ajax({
-                  url:"<?=base_url('beranda/update-tugas')?>",
-                  method:"POST",
-                  data: formData,
-                  dataType:'json',
-                  mimeType:'multipart/form-data',
-                  contentType: false,
-                  cache: false,
-                  processData: false,
-                  success:function(data){
-                    alert("Gambar berhasil diubah")
-                    location.reload()
-                  }
-                })
-              })
-            }else{
-              fileImg.prop('disabled',true)
-            }
-          }else{
-            return false
-          }
-          fileImg.on('change',function(){
-
-          })
-        })
-        checkbox.prop('checked',false)
-      })
-      $('.nilai').on('change',function(){
-        $.ajax({
-          url:"<?=base_url('beranda/update-nilai')?>",
-          data:{
-            id:$(this).data('id'),
-            leader:<?=$this->session->user_id?>,
-            score:$(this).val()
-          },
-          method:"POST",
-          dataType:'json',
-          success:function(data){
-            if (data.status===1){
-              location.reload()
-            }
-          }
-        })
-      })
-      <?php 
-          if ($this->session->role_name==="pimpinan") {
-            ?>
-              $('.nilai').each(function(){
-                let score = $(this)
-                $.ajax({
-                  url:"<?=base_url('beranda/cek-gambar')?>",
-                  data:{
-                    id:$(this).data('id')
-                  },
-                  method:"POST",
-                  dataType:'json',
-                  success:function(data){
-                    console.log(data)
-                    if (data.item===null){
-                      $(':input').prop('disabled','disabled')
-                    }else{
-                      score.val(data.item.score)
-                    }
-                  }
-                })
-              })
-            <?php
-          }
-       ?>
-
     })
   </script>
 </html>

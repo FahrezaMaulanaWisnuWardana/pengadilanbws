@@ -1,11 +1,20 @@
 <?php 
 	class Dashboard_model extends CI_Model
 	{
-		function task_room_user($id){
+		function task_room_user($id=null){
 			$this->db->select('*');
 			$this->db->from('task t');
 			$this->db->join('user_room ur','t.room_id = ur.room_id');
-			$this->db->where($id);
+			$this->db->join('user u','ur.user_id = u.user_id');
+			$this->db->group_by('ur.room_id');
+			($id!=null)?$this->db->where($id):'';
+			return $this->db->get();
+		}
+		function task_room($where=null){
+			$this->db->select('*');
+			$this->db->from('task t');
+			$this->db->join('room r','t.room_id=r.room_id');
+			($where!=null)?$this->db->where($where):'';
 			return $this->db->get();
 		}
 		function create_task_user($data){
@@ -18,8 +27,8 @@
 		}
 		function task_user($id=null){
 			$this->db->select('*');
-			$this->db->from('user_task');
-			$this->db->join('user_room','user_task.user_room_id=user_room.user_room_id');
+			$this->db->from('user_task ut');
+			$this->db->join('task t','t.task_id = ut.task_id');
 			($id!=null)?$this->db->where($id):'';
 			return $this->db->get();
 		}
