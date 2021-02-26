@@ -18,6 +18,9 @@ $route['beranda/update-nilai'] = 'dashboard/update_score';
 $route['laporan'] = 'task';
 
 $route['permintaan'] = 'request';
+$route['permintaan/simpan-permintaan'] = 'request/save';
+$route['permintaan/cek-permintaan'] = 'request/cek_request';
+$route['permintaan/update-permintaan'] = 'request/update_request';
 
 $route['ruangan'] = 'room';
 $route['ruangan/tambah'] = 'room/add';
