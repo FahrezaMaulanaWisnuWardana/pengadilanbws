@@ -1,14 +1,11 @@
 <?php 
-	/**
-	 * 
-	 */
 	class Request extends CI_Controller
 	{
 		
 		function __construct()
 		{
 			parent::__construct();
-			// is_logged_in();
+			is_logged_in();
 			$this->load->model('Request_model','req_model');
 			$this->load->model('Room_model','rmodel');
 			$this->load->model('User_model','u_model');

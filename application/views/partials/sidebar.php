@@ -83,7 +83,7 @@
             <?php
           }else if($this->session->role==='2' || $this->session->role==='4' || $this->session->role==='5'){
             ?>
-              <li class="nav-item">
+              <li class="nav-item <?=($this->uri->segment(1)==="permintaan")?'active':''?>">
                 <a class="nav-link" href="<?=base_url('permintaan')?>">
                   <i class="fas fa-fw fa-question-circle"></i>
                   <span>Permintaan</span></a>
@@ -91,7 +91,7 @@
             <?php
           }
        ?>
-      <li class="nav-item">
+      <li class="nav-item <?=($this->uri->segment(1)==="laporan")?'active':''?>">
         <a class="nav-link" href="<?=base_url('laporan')?>">
           <i class="fas fa-fw fa-info"></i>
           <span>Laporan</span></a>
