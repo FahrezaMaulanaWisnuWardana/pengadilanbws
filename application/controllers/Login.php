@@ -21,16 +21,23 @@
 			))->row_array();
 			if ($login){
 				if (password_verify($password, $login['password'])){
-					$session = array(
-						'user_id' => $login['user_id'],
-						'name' => $login['full_name'] ,
-						'username'=>$login['username'],
-						'role'=>$login['id_role'],
-						'role_name'=>$login['role_name'],
-						'nip'=>$login['nip']
-					);
-					$this->session->set_userdata($session);
-					redirect('beranda');
+					if ($login['active']===1) {
+						$session = array(
+							'user_id' => $login['user_id'],
+							'name' => $login['full_name'] ,
+							'username'=>$login['username'],
+							'role'=>$login['id_role'],
+							'role_name'=>$login['role_name'],
+							'nip'=>$login['nip']
+						);
+						$this->session->set_userdata($session);
+						redirect('beranda');
+					}else{
+				        $this->session->set_flashdata(array(
+				            'message' => '<p class="text-center">Akun anda tidak aktif <br> silahkan hubungi admin untuk aktivasi</p>',
+				            'type' => 'danger'
+				        ));
+					}
 				}else{
 			        $this->session->set_flashdata(array(
 			            'message' => 'Password atau username salah',

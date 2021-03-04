@@ -55,9 +55,26 @@
 		}
 		function delete(){
 			$user_id = $this->input->post('user',true);
-			$this->umodel->delete($user_id);
+			$this->umodel->update(
+						array(
+						'active'=>2,
+						'updated_at'=>date("Y-m-d H:i:s")
+					),$user_id);
 	        $this->session->set_flashdata(array(
 	            'message' => 'Berhasil hapus pengguna',
+	            'type' => 'success'
+	        ));
+	        redirect('pengguna');
+		}
+		function aktivasi(){
+			$user_id = $this->input->post('user',true);
+			$this->umodel->update(
+						array(
+						'active'=>1,
+						'updated_at'=>date("Y-m-d H:i:s")
+					),$user_id);
+	        $this->session->set_flashdata(array(
+	            'message' => 'Berhasil aktivasi pengguna',
 	            'type' => 'success'
 	        ));
 	        redirect('pengguna');

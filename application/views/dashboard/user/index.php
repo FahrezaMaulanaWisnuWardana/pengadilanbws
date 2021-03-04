@@ -73,8 +73,19 @@
                               <td><?=$data['role_name']?></td>
                               <td><?=$data['nip']?></td>
                               <td>
-                                <?=form_open(base_url('pengguna/hapus'))?>
-                                  <button class="btn btn-danger" name="user" onclick="return confirm('Yakin ingin menghapus pengguna?')" type="submit" value="<?=$data['user_id']?>"><i class="fas fa-trash"></i></button>
+                                <?php 
+                                  if ($data['active']==='1') {
+                                    echo form_open(base_url('pengguna/hapus'));
+                                    ?>
+                                        <button class="btn btn-danger" name="user" onclick="return confirm('Yakin ingin menghapus pengguna?')" type="submit" value="<?=$data['user_id']?>"><i class="fas fa-trash"></i></button>
+                                    <?php
+                                  }else{
+                                    echo form_open(base_url('pengguna/aktivasi'));
+                                    ?>
+                                        <button class="btn btn-success" name="user" onclick="return confirm('Yakin ingin aktivasi pengguna?')" type="submit" value="<?=$data['user_id']?>"><i class="fas fa-check"></i></button>
+                                    <?php
+                                  }
+                                 ?>
                                     <a href="<?=base_url('pengguna/edit/'.$data['user_id'])?>" class="btn btn-success"><i class="fas fa-pen"></i></a>
                                     <a href="<?=base_url('pengguna/edit/password/'.$data['user_id'])?>" class="btn btn-success"><i class="fas fa-key"></i></a>
                                 <?=form_close()?>

@@ -39,6 +39,7 @@ $route['ruangan/validasi-akun'] = 'room/cek_room_user';
 $route['pengguna']='user';
 $route['pengguna/tambah']='user/add';
 $route['pengguna/hapus']='user/delete';
+$route['pengguna/aktivasi']='user/aktivasi';
 $route['pengguna/edit/(:num)'] = 'user/update/$1';
 $route['pengguna/edit/password/(:num)'] = 'user/upd_password/$1';
 
