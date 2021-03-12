@@ -27,7 +27,7 @@
 			$this->load->view('dashboard/task-dashboard-user',$data);
 		}
 		function task_room(){
-			$data = $this->dmodel->task_room(['task_id'=>$this->input->post('id')])->row_array();
+			$data = $this->dmodel->task_room(['r.room_id'=>$this->input->post('id')])->row_array();
 			$stat = array('item'=>$data);
 			echo json_encode($stat);
 		}
@@ -55,7 +55,6 @@
 				$data = $this->dmodel->create_task_user(array(
 					'user_id'=>$this->session->user_id,
 					'room_id'=>$this->input->post('room_id'),
-					'task_id'=>$this->input->post('task_id'),
 					'eviden' => (!empty($_FILES['foto']['name']))?implode(',', $_FILES['foto']['name']):NULL,
 					'score' => (!empty($_FILES['foto']['name']))?'1':'2'
 				));
@@ -64,7 +63,7 @@
 	            'message' => 'Berhasil menambah data '.$this->input->post('ruangan'),
 	            'type' => 'success'
 	        ));
-			redirect('beranda');
+	        header('Location: ' . $_SERVER['HTTP_REFERER']);
 		}
 		function cek(){
 			$data = $this->dmodel->task_user(['date(date)'=>date('Y-m-d')])->result_array();
@@ -72,26 +71,26 @@
 			echo json_encode($arr);
 		}
 		function cek_gambar(){
-			$task_id = $this->input->post('id',true);
+			$room_id = $this->input->post('id',true);
 			$date = date('Y-m-d');
-			$data = $this->dmodel->task_user(['ut.task_id'=>$task_id, 'DATE(date)' => $date ])->result_array();
+			$data = $this->dmodel->task_user(['ut.room_id'=>$room_id, 'DATE(date)' => $date ])->result_array();
 			foreach ($data as $foto) {
 				$arr = array(
 					'item'=>explode(',', $foto['eviden']),
 					'score'=>$foto['score'],
-					'id'=>$task_id
+					'id'=>$foto['room_id']
 				);
 			}
 			echo json_encode($arr);
 		}
 		function update_score(){
-			$task_id = $this->input->post('id',true);
+			$room_id = $this->input->post('id',true);
 			$nilai = $this->input->post('score',true);
 			$date = date('Y-m-d');
 			$data = $this->dmodel->update_task_user(array(
 				'leader_id'=>$this->input->post('leader',true),
 				'score'=>$nilai
-			),array('task_id'=>$task_id,'DATE(date)'=>$date));
+			),array('room_id'=>$room_id,'DATE(date)'=>$date));
 			$stat = array('status'=>$data);
 			echo json_encode($stat);
 		}
@@ -111,7 +110,7 @@
 				$uploadData = $this->upload->data();
 				$data = $this->dmodel->update_task_user(array(
 					'eviden'=>implode(',', $_FILES['foto']['name'])
-				),array('task_id'=>$this->input->post('task_id'),'DATE(date)'=>$date));
+				),array('room_id'=>$this->input->post('room_id'),'DATE(date)'=>$date));
 				if ($data>0) {
 			        $this->session->set_flashdata(array(
 			            'message' => 'Berhasil ubah data '.$this->input->post('ruangan'),
@@ -123,7 +122,7 @@
 			            'type' => 'danger'
 			        ));
 				}
-				redirect('beranda');
+	        	header('Location: ' . $_SERVER['HTTP_REFERER']);
 		}
 	}
  ?>

@@ -9,23 +9,133 @@
 			is_logged_in();
 			$this->load->model('Room_model','rmodel');
 			$this->load->model('Report_model','r_model');
+			$this->load->model('User_model','u_model');
 		}
 		function index(){
 			$data['judul']="Laporan";
 			$data['ruangan'] = $this->rmodel->read()->result_array();
 			$this->load->view('dashboard/report/index',$data);
 		}
-		function detail($room_id){
-			$data['judul']="Laporan";
-			$data['ruangan'] = $this->rmodel->read(['room_id'=>$room_id])->row_array();
-			$data['user'] = $this->r_model->user()->result_array();
-			$this->load->view('dashboard/report/detail',$data);	
+		function type($jenis){
+			if ($jenis==="ruangan") {
+				$data['judul']="Laporan Ruangan";
+				$data['ruangan'] = $this->rmodel->read()->result_array();
+				$this->load->view('dashboard/report/list-room-report',$data);
+			}elseif ($jenis==="permintaan") {
+				$data['judul']="Laporan Permintaan";
+				$data['ruangan'] = $this->rmodel->read()->result_array();
+				$this->load->view('dashboard/report/list-req-report',$data);
+			}else{
+				show_404();
+			}
+		}
+		function detail($jenis,$id){
+			if ($jenis==="ruangan") {
+				$data['judul']="Laporan";
+				$data['ruangan'] = $this->rmodel->read(['room_id'=>$id])->row_array();
+				$data['user'] = $this->u_model->user_by_room(['user_room.room_id'=>$id])->result_array();
+				$data['pimpinan'] = $this->r_model->user()->result_array();
+				$this->load->view('dashboard/report/detail',$data);	
+			}elseif($jenis==="permintaan"){
+				$data['judul']="Laporan Permintaan";
+				$data['ruangan'] = $this->rmodel->read(['room_id'=>$id])->row_array();
+				$this->load->view('dashboard/report/detail-permintaan',$data);
+			}else{
+				show_404();
+			}
+		}
+		function request(){
+
+			$data['ruangan'] = $this->r_model->ruangan(['room_id'=>$this->input->post('room_id')])->row_array();
+			$style = array(
+			    'alignment' => [
+			    	'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+			        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+			    ]
+		    );
+
+			$spreadsheet = new Spreadsheet();
+			$sheet = $spreadsheet->getActiveSheet();
+			$sheet->setCellValue('A1','Laporan Permintaan '.strtoupper($data['ruangan']['room_name']));
+			$sheet->getRowDimension('1')->setRowHeight(35);
+			$sheet->getStyle('A1')->applyFromArray($style);
+			$sheet->getStyle('A1')->getFont()->setBold(true);
+
+			$sheet->mergeCells("A1:H1");
+			$cell = 'A';
+			for ($i=0; $i < 8 ; $i++) { 
+				$cell++;
+				$sheet->getColumnDimension($cell)->setAutoSize(true);
+			}
+			$sheet->setCellValue('A2','No');
+			$sheet->getStyle('A2')->applyFromArray($style);
+			$sheet->getStyle('A2')->getFont()->setBold(true);
+			$sheet->setCellValue('B2','Judul Permintaan');
+			$sheet->getStyle('B2')->applyFromArray($style);
+			$sheet->getStyle('B2')->getFont()->setBold(true);
+			$sheet->setCellValue('C2','Perwakilan');
+			$sheet->getStyle('C2')->applyFromArray($style);
+			$sheet->getStyle('C2')->getFont()->setBold(true);
+			$sheet->setCellValue('D2','Petugas');
+			$sheet->getStyle('D2')->applyFromArray($style);
+			$sheet->getStyle('D2')->getFont()->setBold(true);
+			$sheet->setCellValue('E2','Permintaan');
+			$sheet->getStyle('E2')->applyFromArray($style);
+			$sheet->getStyle('E2')->getFont()->setBold(true);
+			$sheet->setCellValue('F2','Tanggal Permintaan');
+			$sheet->getStyle('F2')->applyFromArray($style);
+			$sheet->getStyle('F2')->getFont()->setBold(true);
+			$sheet->setCellValue('G2','Tanggal Respon');
+			$sheet->getStyle('G2')->applyFromArray($style);
+			$sheet->getStyle('G2')->getFont()->setBold(true);
+			$sheet->setCellValue('H2','Hasil');
+			$sheet->getStyle('H2')->applyFromArray($style);
+			$sheet->getStyle('H2')->getFont()->setBold(true);
+
+			$data['lap'] = ($this->input->post('tgl_awal')!=="" && $this->input->post('tgl_akhir')!=="")?$this->r_model->laporan_permintaan('DATE(user_request.created_at) BETWEEN "'.strftime('%Y-%m-%d', strtotime($this->input->post('tgl_awal'))).'" AND "'.strftime('%Y-%m-%d', strtotime($this->input->post('tgl_akhir'))).'" AND user_request.room_id="'.$this->input->post('room_id').'"')->result_array() : $this->r_model->laporan_permintaan(['user_request.room_id'=>$this->input->post('room_id')])->result_array();
+			$no = 0;
+			$cell = 2;
+			foreach ($data['lap'] as $req) {
+				$no++;
+				$cell++;
+				$sheet->setCellValue('A'.$cell,$no);
+				$sheet->getStyle('A'.$cell)->applyFromArray($style);
+				$sheet->setCellValue('B'.$cell,$req['judul']);
+				$sheet->getStyle('B'.$cell)->applyFromArray($style);
+				$sheet->setCellValue('C'.$cell,$req['full_name']);
+				$sheet->getStyle('C'.$cell)->applyFromArray($style);
+				$sheet->setCellValue('D'.$cell,$req['name_req']);
+				$sheet->getStyle('D'.$cell)->applyFromArray($style);
+				$sheet->setCellValue('E'.$cell,$req['request']);
+				$sheet->getStyle('E'.$cell)->applyFromArray($style);
+				$sheet->setCellValue('F'.$cell,strftime('%d-%m-%Y', strtotime($req['created_at'])));
+				$sheet->getStyle('F'.$cell)->applyFromArray($style);
+				($req['tgl_respon']===NULL)?$tgl = '':$tgl=strftime('%d-%m-%Y', strtotime($req['tgl_respon']));
+				$sheet->setCellValue('G'.$cell,$tgl);
+				$sheet->getStyle('G'.$cell)->applyFromArray($style);
+				if ($req['status']==='1') {
+					$status='';
+				}elseif($req['status']==='2'){
+					$status='Diterima';
+				}elseif($req['status']==='3'){
+					$status='Stok Habis';
+				}
+				$sheet->setCellValue('H'.$cell,$status);
+				$sheet->getStyle('H'.$cell)->applyFromArray($style);
+			}
+			$writer = new Xlsx($spreadsheet);
+			$filename='Laporan-'.date('Y-m');
+			ob_end_clean();
+			header('Content-Type:application/vnd.ms-excel');
+			header('Content-Disposition: attachment;filename="'.$filename.'.xlsx');
+			header('Cache-Control:max-age=0');
+			$writer->save('php://output');
 		}
 		function cetak(){
 			$data['ruangan'] = $this->r_model->ruangan(['room_id'=>$this->input->post('room_id')])->row_array();
 			$data['tugas'] = $this->r_model->tugas(['room_id'=>$this->input->post('room_id')])->result_array();
 			$data['user'] = $this->r_model->user(['user_id'=>$this->input->post('user_id')])->row_array();
-			$data['pimpinan'] = $this->r_model->user(['id_role'=>'4'])->row_array();
+			$data['pimpinan'] = $this->r_model->user(['id_role'=>'4','user_id'=>$this->input->post('pimpinan_id')])->row_array();
 			$spreadsheet = new Spreadsheet();
 			$sheet = $spreadsheet->getActiveSheet();
 			$style = array(
@@ -132,8 +242,20 @@
 						($i <= 9)?$tgl = '0'.$i:$tgl = $i;
 						$colCek = 3;
 						foreach ($data['cetak'] as $field) {
-							if ($tgl === strftime('%d', strtotime($field['date'])) && $field['task_id']===$dataTugas['task_id']) {
+							if ($tgl == strftime('%d', strtotime($field['date'])) && $field['task_id']===$dataTugas['task_id']) {
 								$sheet->setCellValueByColumnAndRow($colCek+$i-1,$current_row-1,'✓');
+								if ($field['score']==='1') {
+									$sheet->getStyle($colCek,$current_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('FFFFFFFF');
+								}else if($field['score']==='2'){
+									$sheet->getStyle($colCek,$current_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('FF3498DB');
+									$sheet->getStyle($colCek,$current_row)->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+								}else if($field['score']==='3'){
+									$sheet->getStyle($colCek,$current_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('FFF1C40F');
+									$sheet->getStyle($colCek,$current_row)->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+								}else if($field['score']==='4'){
+									$sheet->getStyle($colCek,$current_row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('FF2ECC71');
+									$sheet->getStyle($colCek,$current_row)->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+								}
 								$sheet->getStyle($colCek,$current_row)->getFont()->setSize(12);
 							}
 						}
@@ -231,9 +353,19 @@
 						($i <= 9)?$tgl = '0'.$i:$tgl = $i;
 						$colCek = 3;
 						foreach ($data['cetak'] as $field) {
-							if ($tgl === strftime('%d', strtotime($field['date'])) && $field['task_id']===$dataTugas['task_id']) {
+							if ($tgl == strftime('%d', strtotime($field['date']))) {
 								$sheet->setCellValueByColumnAndRow($colCek+$i-1,$current_row-1,'✓');
-								$sheet->getStyle($colCek,$current_row)->getFont()->setSize(12);
+								$coloring =  $sheet->getCellByColumnAndRow($colCek+$i-1,$current_row-1)->getCoordinate();
+								if($field['score']==='2'){
+									$sheet->getStyle($coloring)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('FF3498DB');
+									$sheet->getStyle($coloring)->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+								}else if($field['score']==='3'){
+									$sheet->getStyle($coloring)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('FFF1C40F');
+									$sheet->getStyle($coloring)->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+								}else if($field['score']==='4'){
+									$sheet->getStyle($coloring)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('FF2ECC71');
+									$sheet->getStyle($coloring)->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+								}
 							}
 						}
 					}

@@ -81,7 +81,7 @@
 		function add_user($room_id){
 			$data['judul'] = "Tambah pengguna";
 			$data['ruangan']= $this->rmodel->read(compact('room_id'))->row_array();
-			$data['pengguna']=$this->umodel->read()->result_array();
+			$data['pengguna']=$this->umodel->read(['active'=>'1'])->result_array();
 			$this->load->view('dashboard/room/add-room-user',$data);
 		}
 		function save_user(){

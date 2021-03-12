@@ -33,28 +33,38 @@
 
           <!-- Content Row -->
           <div class="row">
-            <?php
-                  foreach ($ruangan as $data) {
-                    ?>
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-4">
-                          <a href="<?=base_url('laporan/detail/'.$data['room_id'])?>">
-                            <div class="card border-left-success shadow h-100 py-2">
-                              <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                  <div class="col mr-2">
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?=$data['room_name']?></div>
-                                  </div>
-                                  <div class="col-auto">
-                                    <i class="fas fa-home fa-2x text-gray-300"></i>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </a>
-                        </div>
-                    <?php
-                  }
-             ?>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-4">
+              <a href="<?=base_url('laporan/jenis/ruangan')?>">
+                <div class="card border-left-success shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">Laporan Ruangan</div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-home fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-4">
+              <a href="<?=base_url('laporan/jenis/permintaan')?>">
+                <div class="card border-left-success shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">Laporan Permintaan</div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-home fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
           </div>
 
         </div>

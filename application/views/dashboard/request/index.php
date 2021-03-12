@@ -239,21 +239,27 @@
         }
       })
     })
-    $(document).on('change','.status',function(){
-      let tag = $(this)
-      $.ajax({
-        url:"<?=base_url('permintaan/update-permintaan')?>",
-        data:{'id':tag.data('id'),'val':tag.val()},
-        method:"POST",
-        dataType:'json',
-        success:function(data){
-          if (data.status===1){
-            alert("Aksi telah berhasil dilakukan")
-          }else{
-            alert("Aksi telah gagal dilakukan")
-          }
-        }
-      })
-    })
+    <?php 
+      if ($this->session->role==='4') {
+        ?>
+          $(document).on('change','.status',function(){
+            let tag = $(this)
+            $.ajax({
+              url:"<?=base_url('permintaan/update-permintaan')?>",
+              data:{'id':tag.data('id'),'val':tag.val()},
+              method:"POST",
+              dataType:'json',
+              success:function(data){
+                if (data.status===1){
+                  alert("Aksi telah berhasil dilakukan")
+                }else{
+                  alert("Aksi telah gagal dilakukan")
+                }
+              }
+            })
+          })
+        <?php
+      }
+     ?>
   </script>
 </html>

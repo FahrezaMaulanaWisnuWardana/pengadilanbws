@@ -38,6 +38,8 @@
                   <div class="table-responsive">
                     <table class="table table-bordered text-center" width="100%" cellspacing="0">
                       <thead>
+                        <th>No.</th>
+                        <th>Tugas.</th>
                         <th>Eviden.</th>
                         <th>Aksi.</th>
                       </thead>
@@ -49,10 +51,13 @@
                               ?>
                               <tr>
                                 <input type="hidden" name="room_id[]" value="<?=$data['room_id']?>">
-                                <td class="task" data-id="<?=$data['room_id']?>"></td>
+                                <input type="hidden" name="task_id[]" value="<?=$data['task_id']?>">
+                                <td><?=$no++?></td>
+                                <td><?=$data['task']?></td>
+                                <td class="task" data-id="<?=$data['task_id']?>"></td>
                                 <td>
                                   <div class="form-group">
-                                    <select class="form-control nilai" data-id="<?=$data['room_id']?>">
+                                    <select class="form-control nilai" data-id="<?=$data['task_id']?>">
                                       <option value="1">Putih</option>
                                       <option value="3">Kuning</option>
                                       <option value="4">Hijau</option>
@@ -72,6 +77,8 @@
                          ?>
                       </tbody>
                       <tfoot>
+                        <th>No.</th>
+                        <th>Tugas.</th>
                         <th>Eviden.</th>
                         <th>Aksi.</th>
                       </tfoot>
@@ -102,24 +109,36 @@
       <!-- End of Main Content -->
 	<?php $this->load->view('templates/footer-dashboard') ?>
   <script type="text/javascript">
-    $.ajax({
-      url:"<?=base_url('beranda/cek-gambar')?>",
-      method:"POST",
-      data:{'id':$('.task').data('id')},
-      dataType:'json',
-      success:function(data){
-        let imageHtml=''
-        for (var i = 0; i < data.item.length; i++) {
-          imageHtml += '<img src="<?=base_url()?>assets/img/eviden/'+data.item[i]+'" style="width:60px;" class="text-center d-inline ml-1 mt-1 img-eviden">'
-        }
-        $('.task').html(imageHtml)
-      }
+    $('.task').each(function(){
+      let tag = $(this)
+        $.ajax({
+          url:"<?=base_url('beranda/cek-gambar')?>",
+          method:"POST",
+          data:{'id':tag.data('id')},
+          dataType:'json',
+          success:function(data){
+            let imageHtml=''
+            for (var i = 0; i < data.item.length; i++) {
+              imageHtml += '<img src="<?=base_url()?>assets/img/eviden/'+data.item[i]+'" style="width:50px;" class="d-inline ml-1 mt-1 img-eviden">'
+            }
+            if (parseInt(data.id) === tag.data('id')){
+              $('.eviden').each(function(){
+                if($(this).data('id') === parseInt(data.id)){
+                  $(this).after('<button class="btn btn-success edit" data-id="'+data.id+'"><i class="fas fa-pen"></i></button>')
+                  $(this).remove()
+                }
+              })
+              tag.html(imageHtml)
+            }
+          }
+        })
     })
-      let tag = $('.nilai')
+    $('.nilai').each(function(){
+      let tag = $(this)
       $.ajax({
         url:"<?=base_url('beranda/cek-gambar')?>",
         data:{
-          id:tag.data('id')
+          id:$(this).data('id')
         },
         method:"POST",
         dataType:'json',
@@ -131,6 +150,7 @@
           }
         }
       })
+    })
     $('.nilai').on('change',function(){
       if (confirm('Beri nilai tugas ini?')) {
         $.ajax({

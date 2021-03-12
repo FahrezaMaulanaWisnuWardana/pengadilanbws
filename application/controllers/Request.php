@@ -24,7 +24,8 @@
 		}
 		function update_request(){
 			$data = $this->req_model->update_request(array(
-				'status'=>$this->input->post('val')
+				'status'=>$this->input->post('val'),
+				'updated_at'=>date('Y-m-d H:i:s')
 			),['id_request'=>$this->input->post('id')]);
 			if ($data>0) {
 				$item = array('status'=>$data);

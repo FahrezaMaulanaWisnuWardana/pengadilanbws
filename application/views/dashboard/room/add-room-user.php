@@ -42,9 +42,11 @@
                         <option disabled selected>Silahkan pilih akun</option>
                         <?php 
                           foreach ($pengguna as $data) {
+                            if ($data['id_role']!=='1' && $data['id_role']!=='4') {
                               ?>
                                 <option value="<?=$data['user_id']?>"><?=$data['full_name']?></option>
                               <?php
+                            }
                           }
                          ?>
                       </select>

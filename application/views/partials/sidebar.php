@@ -95,6 +95,7 @@
         <a class="nav-link" href="<?=base_url('laporan')?>">
           <i class="fas fa-fw fa-info"></i>
           <span>Laporan</span></a>
+        </a>
       </li>
 
       <!-- Divider -->

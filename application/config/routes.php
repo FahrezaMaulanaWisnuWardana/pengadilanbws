@@ -16,8 +16,10 @@ $route['beranda/edit-tugas'] = 'dashboard/update';
 $route['beranda/update-nilai'] = 'dashboard/update_score';
 
 $route['laporan'] = 'report';
-$route['laporan/detail/(:num)'] = 'report/detail/$1';
+$route['laporan/jenis/(:any)'] = 'report/type/$1';
+$route['laporan/detail/(:any)/(:num)'] = 'report/detail/$1/$2';
 $route['laporan/cetak'] = 'report/cetak';
+$route['laporan/cetak-permintaan'] = 'report/request';
 
 $route['permintaan'] = 'request';
 $route['permintaan/simpan-permintaan'] = 'request/save';

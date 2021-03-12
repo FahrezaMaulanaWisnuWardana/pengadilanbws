@@ -36,36 +36,8 @@
             <div class="col-12">
                 <div class="card border-left-success shadow h-100 py-2">
                   <div class="card-body">
-                    <?=form_open('laporan/cetak')?>
+                    <?=form_open('laporan/cetak-permintaan')?>
                       <div class="row mb-3">
-                        <div class="col-6 mb-3">
-                          <label>Petugas</label>
-                          <select class="form-control" name="user_id">
-                            <?php 
-                                foreach ($user as $petugas) {
-                                  if ($petugas['id_role']!=='4' && $petugas['id_role']!=='1') {
-                                  ?>
-                                    <option value="<?=$petugas['user_id']?>"><?=$petugas['username']?></option>
-                                  <?php
-                                  }
-                                }
-                             ?>
-                          </select>
-                        </div>
-                        <div class="col-6 mb-3">
-                          <label>Pimpinan</label>
-                          <select class="form-control" name="pimpinan_id">
-                            <?php 
-                                foreach ($pimpinan as $petugas) {
-                                  if ($petugas['id_role']==='4') {
-                                  ?>
-                                    <option value="<?=$petugas['user_id']?>"><?=$petugas['username']?></option>
-                                  <?php
-                                  }
-                                }
-                             ?>
-                          </select>
-                        </div>
                         <div class="col">
                           <label>Tanggal Awal</label>
                           <input type="date" class="form-control" name="tgl_awal">

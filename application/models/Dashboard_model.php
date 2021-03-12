@@ -28,7 +28,6 @@
 		function task_user($id=null){
 			$this->db->select('*');
 			$this->db->from('user_task ut');
-			$this->db->join('task t','t.task_id = ut.task_id');
 			($id!=null)?$this->db->where($id):'';
 			return $this->db->get();
 		}

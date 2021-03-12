@@ -32,7 +32,7 @@
             <?php if ($this->session->flashdata('message')) $this->load->view('partials/toast') ?>
               <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex justify-content-between">
-                  <h5>Data Ruangan</h5>
+                  <h5>Data Tugas</h5>
                   <a href="<?=base_url('tugas/tambah')?>" class="btn btn-success"><i class="fas fa-plus"></i></a>
                 </div>
                 <div class="card-body">

@@ -21,7 +21,7 @@
 			))->row_array();
 			if ($login){
 				if (password_verify($password, $login['password'])){
-					if ($login['active']===1) {
+					if ($login['active']==='1') {
 						$session = array(
 							'user_id' => $login['user_id'],
 							'name' => $login['full_name'] ,
