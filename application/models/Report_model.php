@@ -35,5 +35,8 @@
 			($where!=null)?$this->db->where($where):'';
 			return $this->db->get();
 		}
+		function delete_laporan($id_user_task){
+			$this->db->delete('user_task',compact('id_user_task'));
+		}
 	}
  ?>

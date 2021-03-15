@@ -37,6 +37,7 @@
 			$this->load->view('dashboard/task-dashboard-leader',$data);
 		}
 		function save(){
+			$date = date('Y-m-d H:i:s');
 			$config['upload_path'] = './assets/img/eviden/';
 			$config['allowed_types'] = 'gif|jpg|png';
 			$config['overwrite'] = TRUE;
@@ -56,7 +57,8 @@
 					'user_id'=>$this->session->user_id,
 					'room_id'=>$this->input->post('room_id'),
 					'eviden' => (!empty($_FILES['foto']['name']))?implode(',', $_FILES['foto']['name']):NULL,
-					'score' => (!empty($_FILES['foto']['name']))?'1':'2'
+					'score' => (!empty($_FILES['foto']['name']))?'1':'2',
+					'deleted_at'=>date('Y-m-d',strtotime(date("Y-m-d", mktime()) . " + 365 day"))
 				));
 
 	        $this->session->set_flashdata(array(
@@ -95,13 +97,13 @@
 			echo json_encode($stat);
 		}
 		function update(){
-			$date = date('Y-m-d');
+			$date = date('Y-m-d H:i:s');
 			$config['upload_path'] = './assets/img/eviden/';
 			$config['allowed_types'] = 'gif|jpg|png';
 			$config['overwrite'] = TRUE;
 			$this->load->library('upload',$config);
 			for ($i=0; $i <= count($_FILES)-1; $i++) {
-				$_FILES['file']['name'] = $_FILES['foto']['name'][$i];
+				$_FILES['file']['name'] = $date.$_FILES['foto']['name'][$i];
 				$_FILES['file']['type'] = $_FILES['foto']['type'][$i];
 				$_FILES['file']['tmp_name'] = $_FILES['foto']['tmp_name'][$i];
 				$_FILES['file']['error'] = $_FILES['foto']['error'][$i];

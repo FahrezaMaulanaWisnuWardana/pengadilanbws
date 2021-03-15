@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 25, 2021 at 11:58 PM
+-- Generation Time: Mar 15, 2021 at 05:31 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -32,8 +32,20 @@ CREATE TABLE `request` (
   `id_request` int(11) NOT NULL,
   `id_urequest` int(11) NOT NULL,
   `request` varchar(30) NOT NULL,
-  `status` enum('1','2','3') NOT NULL
+  `status` enum('1','2','3') NOT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `request`
+--
+
+INSERT INTO `request` (`id_request`, `id_urequest`, `request`, `status`, `updated_at`) VALUES
+(1, 1, 'sapu', '3', '2021-03-11 13:32:43'),
+(2, 1, 'deterjen', '2', '2021-03-11 13:32:43'),
+(3, 1, 'pel pelan', '3', '2021-03-11 13:32:43'),
+(4, 2, 'sapu lagi', '2', '2021-03-11 14:00:55'),
+(5, 2, 'sapu', '3', '2021-03-11 14:00:55');
 
 -- --------------------------------------------------------
 
@@ -43,7 +55,7 @@ CREATE TABLE `request` (
 
 CREATE TABLE `room` (
   `room_id` int(3) NOT NULL,
-  `room_name` varchar(50) NOT NULL
+  `room_name` varchar(90) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -51,11 +63,33 @@ CREATE TABLE `room` (
 --
 
 INSERT INTO `room` (`room_id`, `room_name`) VALUES
-(5, 'Ruang Sidang'),
-(6, 'Toilet'),
-(7, 'Ruang lobi'),
-(8, 'test'),
-(9, 'Halaman Depan');
+(1, 'Ruang Wakil Ketua'),
+(2, 'Ruang Pertemuan'),
+(3, 'Ruang Cakim'),
+(4, 'Ruang Panitera'),
+(5, 'Ruang Panitera Pengganti+DYK'),
+(6, 'Ruang Kamar Mandi Atas'),
+(7, 'Ruang Sekretaris'),
+(8, 'Ruang Hukum'),
+(9, 'Ruang Ketua'),
+(10, 'Ruang Hakim'),
+(11, 'Ruang Perpustakaan'),
+(12, 'Ruang Tahanan'),
+(13, 'Ruang Kamar Mandi Barat(arsip) dan Taman(POT)'),
+(15, 'PTSP'),
+(16, 'Ruang Laktasi'),
+(17, 'Ruang Mediasi dan taman(kolam)'),
+(18, 'Ruang Sidang Utama'),
+(19, 'Ruang Sidang 2(Barat)'),
+(20, 'Ruang tunggu sidang'),
+(21, 'Ruang Sidang Anak'),
+(22, 'Ruang ramah anak'),
+(23, 'Kamar mandi difabel'),
+(24, 'Ruang Perdata'),
+(25, 'Halaman belakang'),
+(26, 'Halaman depan'),
+(27, 'Taman bagian depan'),
+(28, 'Ruang IT');
 
 -- --------------------------------------------------------
 
@@ -74,10 +108,15 @@ CREATE TABLE `task` (
 --
 
 INSERT INTO `task` (`task_id`, `task`, `room_id`) VALUES
-(11, 'bersih berish', 9),
-(12, 'bersih bersih lobi', 7),
-(13, 'bersih bersih ruang sidang', 5),
-(14, 'test', 5);
+(1, 'Menyapu dan Mengepel lantai dengan cairan pembersih', 28),
+(2, 'Mengosongkan tempat sampah', 28),
+(3, 'Membersihkan/mengelap Meja dan Kursi', 28),
+(4, 'Menata Meja dan Kursi ketempat semula', 28),
+(5, 'Membersihkan langit-langit', 28),
+(6, 'Membersihkan jendela dengan cairan pembersih', 28),
+(7, 'Mematikan / Menghidupkan AC/kipas', 28),
+(8, 'Mengecek fungsi saklar dan lampu', 28),
+(9, 'Mengecek pengharum ruangan', 28);
 
 -- --------------------------------------------------------
 
@@ -94,18 +133,31 @@ CREATE TABLE `user` (
   `id_role` int(2) NOT NULL,
   `nip` varchar(20) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `updated_at` datetime DEFAULT NULL
+  `updated_at` datetime DEFAULT NULL,
+  `active` enum('1','2') NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `full_name`, `username`, `password`, `gender`, `id_role`, `nip`, `created_at`, `updated_at`) VALUES
-(8, 'hasan', 'hasan', '$2y$10$0W.Z4oziqwgHw9w1rlEnAuM17buOaVE7c4i5SYIF0rNTmKlFd8OBi', '1', 2, '123', '2021-02-04 13:22:45', NULL),
-(9, 'admin', 'admin', '$2y$10$0W.Z4oziqwgHw9w1rlEnAuM17buOaVE7c4i5SYIF0rNTmKlFd8OBi', '1', 1, '123', '2021-02-04 13:22:45', NULL),
-(10, 'murti', 'murti', '$2y$10$UpU88CH7tLBz/uDGO8eDTOutw17fjuXJ0TP5zsjU6clQ2tl0jnFzK', '2', 4, '123', '2021-02-04 13:34:13', NULL),
-(11, 'test', 'test', '$2y$10$RnQ6TXErJ48dZsbD0snRL.Cl3oFkkGownWkrYccjk7BcBFo.FaOS.', '1', 2, '', '2021-02-07 19:18:31', NULL);
+INSERT INTO `user` (`user_id`, `full_name`, `username`, `password`, `gender`, `id_role`, `nip`, `created_at`, `updated_at`, `active`) VALUES
+(9, 'admin', 'admin', '$2y$10$0W.Z4oziqwgHw9w1rlEnAuM17buOaVE7c4i5SYIF0rNTmKlFd8OBi', '1', 1, '', '2021-03-04 08:29:09', '2021-03-04 15:29:09', '1'),
+(13, 'Recky', 'recky', '$2y$10$xK6Hr.FKVTRkjSBAVDauJeSnVuBqwnbys956yGz2WNV9A.Qbhc.v6', '1', 2, '', '2021-03-04 04:24:36', NULL, '1'),
+(14, 'Fajar', 'fajar', '$2y$10$xK6Hr.FKVTRkjSBAVDauJeSnVuBqwnbys956yGz2WNV9A.Qbhc.v6', '1', 2, '', '2021-03-04 04:24:36', NULL, '1'),
+(15, 'Yudi', 'yudi', '$2y$10$xK6Hr.FKVTRkjSBAVDauJeSnVuBqwnbys956yGz2WNV9A.Qbhc.v6', '1', 2, '', '2021-03-04 04:24:36', NULL, '1'),
+(16, 'Juhari', 'juhari', '$2y$10$xK6Hr.FKVTRkjSBAVDauJeSnVuBqwnbys956yGz2WNV9A.Qbhc.v6', '1', 2, '', '2021-03-04 04:24:36', NULL, '1'),
+(17, 'Andre', 'andre', '$2y$10$xK6Hr.FKVTRkjSBAVDauJeSnVuBqwnbys956yGz2WNV9A.Qbhc.v6', '1', 2, '', '2021-03-04 04:24:36', NULL, '1'),
+(18, 'Risma', 'risma', '$2y$10$xK6Hr.FKVTRkjSBAVDauJeSnVuBqwnbys956yGz2WNV9A.Qbhc.v6', '1', 2, '', '2021-03-04 04:24:36', NULL, '1'),
+(19, 'Putri', 'putri', '$2y$10$xK6Hr.FKVTRkjSBAVDauJeSnVuBqwnbys956yGz2WNV9A.Qbhc.v6', '1', 2, '', '2021-03-04 04:24:36', NULL, '1'),
+(20, 'Hasan', 'hasan', '$2y$10$xK6Hr.FKVTRkjSBAVDauJeSnVuBqwnbys956yGz2WNV9A.Qbhc.v6', '1', 2, '', '2021-03-04 04:37:52', '2021-03-04 11:37:52', '1'),
+(21, 'Rendi', 'rendi', '$2y$10$xK6Hr.FKVTRkjSBAVDauJeSnVuBqwnbys956yGz2WNV9A.Qbhc.v6', '1', 2, '', '2021-03-04 04:24:36', NULL, '1'),
+(22, 'Hisyam', 'hisyam', '$2y$10$xK6Hr.FKVTRkjSBAVDauJeSnVuBqwnbys956yGz2WNV9A.Qbhc.v6', '1', 2, '', '2021-03-04 04:24:36', NULL, '1'),
+(23, 'Wawan', 'wawan', '$2y$10$xK6Hr.FKVTRkjSBAVDauJeSnVuBqwnbys956yGz2WNV9A.Qbhc.v6', '1', 2, '', '2021-03-04 04:24:36', NULL, '1'),
+(24, 'Yuyut', 'yuyut', '$2y$10$xK6Hr.FKVTRkjSBAVDauJeSnVuBqwnbys956yGz2WNV9A.Qbhc.v6', '1', 2, '', '2021-03-04 04:24:36', NULL, '1'),
+(25, 'Hesyim', 'hesyim', '$2y$10$xK6Hr.FKVTRkjSBAVDauJeSnVuBqwnbys956yGz2WNV9A.Qbhc.v6', '1', 2, '', '2021-03-04 04:24:36', NULL, '1'),
+(26, 'Hendra', 'hendra', '$2y$10$D2yWF3avWShPx6jetlX5deGS2uQGbWBwVdB2JAgsYJV3fuz5sv8tm', '1', 2, '', '2021-03-04 06:47:08', NULL, '1'),
+(27, 'Murti Triputranti. SE', 'murti', '$2y$10$wkfmp/huk.k/.oVgtio1S.Omua3zhL88AC72qOYuK1DYNqu207ETK', '1', 4, '198509302009122003', '2021-03-04 08:28:59', NULL, '1');
 
 -- --------------------------------------------------------
 
@@ -115,11 +167,20 @@ INSERT INTO `user` (`user_id`, `full_name`, `username`, `password`, `gender`, `i
 
 CREATE TABLE `user_request` (
   `id_urequest` int(11) NOT NULL,
+  `judul` varchar(50) NOT NULL,
   `user_id` int(5) NOT NULL,
   `user_request_id` int(5) DEFAULT NULL,
   `room_id` int(3) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user_request`
+--
+
+INSERT INTO `user_request` (`id_urequest`, `judul`, `user_id`, `user_request_id`, `room_id`, `created_at`) VALUES
+(1, 'Permintaan sapu dan deterjen', 26, 26, 28, '2021-03-11 06:21:47'),
+(2, 'z', 27, 13, 1, '2021-03-25 07:00:54');
 
 -- --------------------------------------------------------
 
@@ -159,9 +220,39 @@ CREATE TABLE `user_room` (
 --
 
 INSERT INTO `user_room` (`user_room_id`, `user_id`, `room_id`) VALUES
-(12, 8, 5),
-(13, 8, 7),
-(14, 11, 5);
+(1, 13, 1),
+(2, 13, 2),
+(3, 14, 2),
+(4, 15, 2),
+(5, 16, 2),
+(6, 17, 2),
+(7, 18, 2),
+(8, 19, 2),
+(9, 14, 3),
+(10, 15, 4),
+(11, 14, 5),
+(12, 15, 6),
+(14, 15, 7),
+(15, 16, 10),
+(16, 18, 8),
+(17, 19, 9),
+(18, 17, 11),
+(19, 20, 12),
+(20, 20, 13),
+(21, 21, 15),
+(22, 21, 16),
+(23, 21, 17),
+(24, 22, 18),
+(25, 22, 19),
+(26, 22, 20),
+(27, 23, 21),
+(28, 23, 22),
+(29, 23, 23),
+(30, 19, 24),
+(31, 24, 25),
+(32, 25, 26),
+(33, 25, 27),
+(34, 26, 28);
 
 -- --------------------------------------------------------
 
@@ -173,24 +264,12 @@ CREATE TABLE `user_task` (
   `id_user_task` int(11) NOT NULL,
   `user_id` int(5) NOT NULL,
   `room_id` int(3) NOT NULL,
-  `task_id` int(6) NOT NULL,
   `eviden` text DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `leader_id` int(5) DEFAULT NULL,
-  `score` enum('1','2','3','4') NOT NULL COMMENT '1.putih\r\n2.merah\r\n3.kuning\r\n4.hijau'
+  `score` enum('1','2','3','4') NOT NULL COMMENT '1.putih\r\n2.merah\r\n3.kuning\r\n4.hijau',
+  `deleted_at` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `user_task`
---
-
-INSERT INTO `user_task` (`id_user_task`, `user_id`, `room_id`, `task_id`, `eviden`, `date`, `leader_id`, `score`) VALUES
-(47, 8, 5, 13, 'marker.png,mbeek.jpg', '2021-02-24 09:58:19', NULL, '1'),
-(48, 8, 5, 14, 'ig.png,marker.png,phone.png', '2021-02-24 09:59:35', NULL, '1'),
-(49, 8, 7, 12, 'fb.png,ig.png,marker.png', '2021-02-24 12:24:43', NULL, '1'),
-(50, 8, 5, 13, 'fb.png,ig.png,phone.png', '2021-02-25 20:39:15', 10, '3'),
-(54, 8, 7, 12, 'fb.png,ig.png,marker.png,moo.jpg,phone.png', '2021-02-25 19:07:00', NULL, '1'),
-(55, 8, 5, 14, 'mbeek.jpg,moo.jpg', '2021-02-25 22:36:58', 10, '4');
 
 --
 -- Indexes for dumped tables
@@ -252,31 +331,31 @@ ALTER TABLE `user_task`
 -- AUTO_INCREMENT for table `request`
 --
 ALTER TABLE `request`
-  MODIFY `id_request` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_request` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `room`
 --
 ALTER TABLE `room`
-  MODIFY `room_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `room_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `task`
 --
 ALTER TABLE `task`
-  MODIFY `task_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `task_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `user_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `user_request`
 --
 ALTER TABLE `user_request`
-  MODIFY `id_urequest` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_urequest` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user_role`
@@ -288,13 +367,13 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT for table `user_room`
 --
 ALTER TABLE `user_room`
-  MODIFY `user_room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `user_room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `user_task`
 --
 ALTER TABLE `user_task`
-  MODIFY `id_user_task` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id_user_task` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
