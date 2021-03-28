@@ -53,7 +53,22 @@
 			        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
 			    ]
 		    );
-
+		    $outline = [
+		    	'borders' => [
+			        'outline' => [
+			            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+			            'color' => ['argb' => '00000000'],
+			        ],
+			    ]
+			];
+		    $styleArray = [
+		    	'borders' => [
+			        'allBorders' => [
+			            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+			            'color' => ['argb' => '00000000'],
+			        ],
+			    ]
+			];
 			$spreadsheet = new Spreadsheet();
 			$sheet = $spreadsheet->getActiveSheet();
 			$sheet->setCellValue('A1','Laporan Permintaan '.strtoupper($data['ruangan']['room_name']));
@@ -63,33 +78,41 @@
 
 			$sheet->mergeCells("A1:H1");
 			$cell = 'A';
-			for ($i=0; $i < 8 ; $i++) { 
+			for ($i=0; $i <= 8 ; $i++) { 
 				$cell++;
 				$sheet->getColumnDimension($cell)->setAutoSize(true);
 			}
 			$sheet->setCellValue('A2','No');
 			$sheet->getStyle('A2')->applyFromArray($style);
+			$sheet->getStyle('A2')->applyFromArray($styleArray);
 			$sheet->getStyle('A2')->getFont()->setBold(true);
 			$sheet->setCellValue('B2','Judul Permintaan');
 			$sheet->getStyle('B2')->applyFromArray($style);
+			$sheet->getStyle('B2')->applyFromArray($styleArray);
 			$sheet->getStyle('B2')->getFont()->setBold(true);
 			$sheet->setCellValue('C2','Perwakilan');
 			$sheet->getStyle('C2')->applyFromArray($style);
+			$sheet->getStyle('C2')->applyFromArray($styleArray);
 			$sheet->getStyle('C2')->getFont()->setBold(true);
 			$sheet->setCellValue('D2','Petugas');
 			$sheet->getStyle('D2')->applyFromArray($style);
+			$sheet->getStyle('D2')->applyFromArray($styleArray);
 			$sheet->getStyle('D2')->getFont()->setBold(true);
 			$sheet->setCellValue('E2','Permintaan');
 			$sheet->getStyle('E2')->applyFromArray($style);
+			$sheet->getStyle('E2')->applyFromArray($styleArray);
 			$sheet->getStyle('E2')->getFont()->setBold(true);
 			$sheet->setCellValue('F2','Tanggal Permintaan');
 			$sheet->getStyle('F2')->applyFromArray($style);
+			$sheet->getStyle('F2')->applyFromArray($styleArray);
 			$sheet->getStyle('F2')->getFont()->setBold(true);
 			$sheet->setCellValue('G2','Tanggal Respon');
 			$sheet->getStyle('G2')->applyFromArray($style);
+			$sheet->getStyle('G2')->applyFromArray($styleArray);
 			$sheet->getStyle('G2')->getFont()->setBold(true);
 			$sheet->setCellValue('H2','Hasil');
 			$sheet->getStyle('H2')->applyFromArray($style);
+			$sheet->getStyle('H2')->applyFromArray($styleArray);
 			$sheet->getStyle('H2')->getFont()->setBold(true);
 
 			$data['lap'] = ($this->input->post('tgl_awal')!=="" && $this->input->post('tgl_akhir')!=="")?$this->r_model->laporan_permintaan('DATE(user_request.created_at) BETWEEN "'.strftime('%Y-%m-%d', strtotime($this->input->post('tgl_awal'))).'" AND "'.strftime('%Y-%m-%d', strtotime($this->input->post('tgl_akhir'))).'" AND user_request.room_id="'.$this->input->post('room_id').'"')->result_array() : $this->r_model->laporan_permintaan(['user_request.room_id'=>$this->input->post('room_id')])->result_array();
@@ -100,19 +123,26 @@
 				$cell++;
 				$sheet->setCellValue('A'.$cell,$no);
 				$sheet->getStyle('A'.$cell)->applyFromArray($style);
+				$sheet->getStyle('A'.$cell)->applyFromArray($styleArray);
 				$sheet->setCellValue('B'.$cell,$req['judul']);
 				$sheet->getStyle('B'.$cell)->applyFromArray($style);
+				$sheet->getStyle('B'.$cell)->applyFromArray($styleArray);
 				$sheet->setCellValue('C'.$cell,$req['full_name']);
 				$sheet->getStyle('C'.$cell)->applyFromArray($style);
+				$sheet->getStyle('C'.$cell)->applyFromArray($styleArray);
 				$sheet->setCellValue('D'.$cell,$req['name_req']);
 				$sheet->getStyle('D'.$cell)->applyFromArray($style);
+				$sheet->getStyle('D'.$cell)->applyFromArray($styleArray);
 				$sheet->setCellValue('E'.$cell,$req['request']);
 				$sheet->getStyle('E'.$cell)->applyFromArray($style);
+				$sheet->getStyle('E'.$cell)->applyFromArray($styleArray);
 				$sheet->setCellValue('F'.$cell,strftime('%d-%m-%Y', strtotime($req['created_at'])));
 				$sheet->getStyle('F'.$cell)->applyFromArray($style);
+				$sheet->getStyle('F'.$cell)->applyFromArray($styleArray);
 				($req['tgl_respon']===NULL)?$tgl = '':$tgl=strftime('%d-%m-%Y', strtotime($req['tgl_respon']));
 				$sheet->setCellValue('G'.$cell,$tgl);
 				$sheet->getStyle('G'.$cell)->applyFromArray($style);
+				$sheet->getStyle('G'.$cell)->applyFromArray($styleArray);
 				if ($req['status']==='1') {
 					$status='';
 				}elseif($req['status']==='2'){
@@ -122,7 +152,38 @@
 				}
 				$sheet->setCellValue('H'.$cell,$status);
 				$sheet->getStyle('H'.$cell)->applyFromArray($style);
+				$sheet->getStyle('H'.$cell)->applyFromArray($styleArray);
 			}
+
+			$colSpv=1;
+			for ($spv=1; $spv<=$no+4; $spv++) { 
+				$colSpv++;
+			}
+
+			$sheet->setCellValueByColumnAndRow($spv-2,$cell+2,'Mengetahui');
+			$sheet->setCellValueByColumnAndRow($spv-2,$cell+3,'Kab Sub Bagian Umum dan Keuangan');
+			$sheet->setCellValueByColumnAndRow($spv-2,$cell+8,'TTD');
+			$sheet->setCellValueByColumnAndRow($spv-2,$cell+9,''.$data['lap'][0]['name_lead'].'');
+			$sheet->setCellValueByColumnAndRow($spv-2,$cell+10,'NIP.'.$data['lap'][0]['nip'].'');
+
+			$ttdKnowAwal = $sheet->getCellByColumnAndRow($spv-2,$cell+2)->getCoordinate();
+			$ttdKnowAkhir = $sheet->getCellByColumnAndRow($spv,$cell+2)->getCoordinate();
+			$sheet->mergeCells("$ttdKnowAwal:$ttdKnowAkhir");
+			$ttdKabAwal = $sheet->getCellByColumnAndRow($spv-2,$cell+3)->getCoordinate();
+			$ttdKabAkhir = $sheet->getCellByColumnAndRow($spv,$cell+3)->getCoordinate();
+			$sheet->mergeCells("$ttdKabAwal:$ttdKabAkhir");
+			$ttdAwal = $sheet->getCellByColumnAndRow($spv-2,$cell+8)->getCoordinate();
+			$ttdAkhir = $sheet->getCellByColumnAndRow($spv,$cell+8)->getCoordinate();
+			$sheet->mergeCells("$ttdAwal:$ttdAkhir");
+			$ttdNamaAwal = $sheet->getCellByColumnAndRow($spv-2,$cell+9)->getCoordinate();
+			$ttdNamaAkhir = $sheet->getCellByColumnAndRow($spv,$cell+9)->getCoordinate();
+			$sheet->mergeCells("$ttdNamaAwal:$ttdNamaAkhir");
+			$ttdNipAwal = $sheet->getCellByColumnAndRow($spv-2,$cell+10)->getCoordinate();
+			$ttdNipAkhir = $sheet->getCellByColumnAndRow($spv,$cell+10)->getCoordinate();
+			$sheet->mergeCells("$ttdNipAwal:$ttdNipAkhir");
+			$sheet->getStyle("A1:$ttdNipAkhir")->applyFromArray($style);
+			$sheet->getStyle("A1:$ttdNipAkhir")->applyFromArray($outline);
+
 			$writer = new Xlsx($spreadsheet);
 			$filename='Laporan-'.date('Y-m');
 			ob_end_clean();

@@ -8,11 +8,12 @@
 			return $this->db->get();
 		}
 		function laporan_permintaan($where=null){
-			$this->db->select('* , user.username as username_req , user.full_name as name_req , request.updated_at as tgl_respon');
+			$this->db->select('* , user.username as username_req , user.full_name as name_req , request.updated_at as tgl_respon , ur.full_name as name_lead');
 			$this->db->from('request');
 			$this->db->join('user_request','user_request.id_urequest=request.id_urequest','INNER');
 			$this->db->join('user','user_request.user_request_id=user.user_id','INNER');
 			$this->db->join('user u','u.user_id=user_request.user_id','INNER');
+			$this->db->join('user ur','ur.user_id=request.id_leader','INNER');
 			$this->db->join('room','room.room_id=user_request.room_id','INNER');
 			($where!=null)?$this->db->where($where):'';
 			return $this->db->get();

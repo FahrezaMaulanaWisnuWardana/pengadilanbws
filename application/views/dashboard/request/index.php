@@ -246,7 +246,7 @@
             let tag = $(this)
             $.ajax({
               url:"<?=base_url('permintaan/update-permintaan')?>",
-              data:{'id':tag.data('id'),'val':tag.val()},
+              data:{'id':tag.data('id'),'lead':<?=$this->session->user_id?>,'val':tag.val()},
               method:"POST",
               dataType:'json',
               success:function(data){
