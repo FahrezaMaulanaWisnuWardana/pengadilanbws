@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 15, 2021 at 05:31 AM
+-- Generation Time: Mar 28, 2021 at 06:35 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -33,6 +33,7 @@ CREATE TABLE `request` (
   `id_urequest` int(11) NOT NULL,
   `request` varchar(30) NOT NULL,
   `status` enum('1','2','3') NOT NULL,
+  `id_leader` int(5) NOT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -40,12 +41,12 @@ CREATE TABLE `request` (
 -- Dumping data for table `request`
 --
 
-INSERT INTO `request` (`id_request`, `id_urequest`, `request`, `status`, `updated_at`) VALUES
-(1, 1, 'sapu', '3', '2021-03-11 13:32:43'),
-(2, 1, 'deterjen', '2', '2021-03-11 13:32:43'),
-(3, 1, 'pel pelan', '3', '2021-03-11 13:32:43'),
-(4, 2, 'sapu lagi', '2', '2021-03-11 14:00:55'),
-(5, 2, 'sapu', '3', '2021-03-11 14:00:55');
+INSERT INTO `request` (`id_request`, `id_urequest`, `request`, `status`, `id_leader`, `updated_at`) VALUES
+(1, 1, 'sapu', '2', 27, '2021-03-28 08:37:42'),
+(2, 1, 'deterjen', '2', 27, '2021-03-28 08:37:28'),
+(3, 1, 'pel pelan', '2', 27, '2021-03-28 08:37:48'),
+(4, 2, 'sapu lagi', '2', 27, '2021-03-28 08:53:44'),
+(5, 2, 'sapu', '2', 27, '2021-03-28 08:53:37');
 
 -- --------------------------------------------------------
 
@@ -272,6 +273,14 @@ CREATE TABLE `user_task` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Dumping data for table `user_task`
+--
+
+INSERT INTO `user_task` (`id_user_task`, `user_id`, `room_id`, `eviden`, `date`, `leader_id`, `score`, `deleted_at`) VALUES
+(26, 26, 28, 'ig.png,marker.png,mbeek.jpg,phone.png', '2021-03-27 11:55:27', 27, '4', '2022-03-27'),
+(32, 26, 28, 'mbeek.jpg', '2021-03-28 03:52:38', NULL, '1', '2022-03-28');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -373,7 +382,7 @@ ALTER TABLE `user_room`
 -- AUTO_INCREMENT for table `user_task`
 --
 ALTER TABLE `user_task`
-  MODIFY `id_user_task` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_user_task` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
