@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2021 at 06:35 AM
+-- Generation Time: Apr 12, 2021 at 03:44 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -46,7 +46,10 @@ INSERT INTO `request` (`id_request`, `id_urequest`, `request`, `status`, `id_lea
 (2, 1, 'deterjen', '2', 27, '2021-03-28 08:37:28'),
 (3, 1, 'pel pelan', '2', 27, '2021-03-28 08:37:48'),
 (4, 2, 'sapu lagi', '2', 27, '2021-03-28 08:53:44'),
-(5, 2, 'sapu', '2', 27, '2021-03-28 08:53:37');
+(5, 2, 'sapu', '2', 27, '2021-03-28 08:53:37'),
+(7, 4, 'saya ingin meminta sapu ', '2', 27, '2021-04-08 12:35:59'),
+(8, 5, 'saya ingin meminta sapu ', '2', 27, '2021-04-08 12:36:52'),
+(9, 6, 'sapu lagi', '1', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -90,7 +93,8 @@ INSERT INTO `room` (`room_id`, `room_name`) VALUES
 (25, 'Halaman belakang'),
 (26, 'Halaman depan'),
 (27, 'Taman bagian depan'),
-(28, 'Ruang IT');
+(28, 'Ruang IT'),
+(31, 'ruangan test');
 
 -- --------------------------------------------------------
 
@@ -117,7 +121,8 @@ INSERT INTO `task` (`task_id`, `task`, `room_id`) VALUES
 (6, 'Membersihkan jendela dengan cairan pembersih', 28),
 (7, 'Mematikan / Menghidupkan AC/kipas', 28),
 (8, 'Mengecek fungsi saklar dan lampu', 28),
-(9, 'Mengecek pengharum ruangan', 28);
+(9, 'Mengecek pengharum ruangan', 28),
+(10, 'test', 31);
 
 -- --------------------------------------------------------
 
@@ -158,7 +163,9 @@ INSERT INTO `user` (`user_id`, `full_name`, `username`, `password`, `gender`, `i
 (24, 'Yuyut', 'yuyut', '$2y$10$xK6Hr.FKVTRkjSBAVDauJeSnVuBqwnbys956yGz2WNV9A.Qbhc.v6', '1', 2, '', '2021-03-04 04:24:36', NULL, '1'),
 (25, 'Hesyim', 'hesyim', '$2y$10$xK6Hr.FKVTRkjSBAVDauJeSnVuBqwnbys956yGz2WNV9A.Qbhc.v6', '1', 2, '', '2021-03-04 04:24:36', NULL, '1'),
 (26, 'Hendra', 'hendra', '$2y$10$D2yWF3avWShPx6jetlX5deGS2uQGbWBwVdB2JAgsYJV3fuz5sv8tm', '1', 2, '', '2021-03-04 06:47:08', NULL, '1'),
-(27, 'Murti Triputranti. SE', 'murti', '$2y$10$wkfmp/huk.k/.oVgtio1S.Omua3zhL88AC72qOYuK1DYNqu207ETK', '1', 4, '198509302009122003', '2021-03-04 08:28:59', NULL, '1');
+(27, 'Murti Triputranti. SE', 'murti', '$2y$10$wkfmp/huk.k/.oVgtio1S.Omua3zhL88AC72qOYuK1DYNqu207ETK', '1', 4, '198509302009122003', '2021-03-04 08:28:59', NULL, '1'),
+(28, 'testing', 'test', '$2y$10$PLXe0GrRvbwq5Xboi.edUeFlLORwo8E9dV8kEsuKxfwoQJm4eqpKy', '1', 2, '123', '2021-04-05 16:09:32', '2021-04-05 23:09:32', '1'),
+(29, 'testkepala', 'kepala', '$2y$10$TGwCBDdciEeOz2B5EG5vOOHRdNy7VtNAktKGWb9oTmjWd.cwjo0U.', '1', 6, '', '2021-04-08 05:21:53', NULL, '1');
 
 -- --------------------------------------------------------
 
@@ -181,7 +188,10 @@ CREATE TABLE `user_request` (
 
 INSERT INTO `user_request` (`id_urequest`, `judul`, `user_id`, `user_request_id`, `room_id`, `created_at`) VALUES
 (1, 'Permintaan sapu dan deterjen', 26, 26, 28, '2021-03-11 06:21:47'),
-(2, 'z', 27, 13, 1, '2021-03-25 07:00:54');
+(2, 'z', 27, 13, 1, '2021-03-25 07:00:54'),
+(4, 'test judul dan slug', 28, 28, 31, '2021-04-05 16:19:34'),
+(5, 'test', 29, 13, 31, '2021-04-08 05:35:25'),
+(6, 'test lagi', 29, 26, 31, '2021-04-08 05:52:53');
 
 -- --------------------------------------------------------
 
@@ -202,7 +212,8 @@ INSERT INTO `user_role` (`id_role`, `role_name`) VALUES
 (1, 'admin'),
 (2, 'petugas'),
 (4, 'pimpinan'),
-(5, 'keamanan');
+(5, 'keamanan'),
+(6, 'kepala ruangan');
 
 -- --------------------------------------------------------
 
@@ -253,7 +264,10 @@ INSERT INTO `user_room` (`user_room_id`, `user_id`, `room_id`) VALUES
 (31, 24, 25),
 (32, 25, 26),
 (33, 25, 27),
-(34, 26, 28);
+(34, 26, 28),
+(35, 20, 31),
+(36, 13, 31),
+(37, 28, 31);
 
 -- --------------------------------------------------------
 
@@ -278,7 +292,12 @@ CREATE TABLE `user_task` (
 
 INSERT INTO `user_task` (`id_user_task`, `user_id`, `room_id`, `eviden`, `date`, `leader_id`, `score`, `deleted_at`) VALUES
 (26, 26, 28, 'ig.png,marker.png,mbeek.jpg,phone.png', '2021-03-27 11:55:27', 27, '4', '2022-03-27'),
-(32, 26, 28, 'mbeek.jpg', '2021-03-28 03:52:38', NULL, '1', '2022-03-28');
+(32, 26, 28, 'mbeek.jpg', '2021-03-28 03:52:38', NULL, '1', '2022-03-28'),
+(34, 28, 31, 'marker.png,mbeek.jpg,moo.jpg', '2021-04-05 16:19:14', NULL, '1', '2022-04-05'),
+(41, 26, 28, 'ig.png,phone.png', '2021-04-11 07:01:46', 27, '4', '2022-04-12'),
+(42, 26, 28, 'ig.png,marker.png', '2021-04-13 07:03:02', NULL, '1', '2022-04-12'),
+(43, 26, 28, 'ig.png,phone.png', '2021-04-12 07:01:46', 27, '4', '2022-04-12'),
+(44, 26, 28, 'ig.png,marker.png', '2021-04-14 07:03:02', NULL, '1', '2022-04-12');
 
 --
 -- Indexes for dumped tables
@@ -340,49 +359,49 @@ ALTER TABLE `user_task`
 -- AUTO_INCREMENT for table `request`
 --
 ALTER TABLE `request`
-  MODIFY `id_request` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_request` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `room`
 --
 ALTER TABLE `room`
-  MODIFY `room_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `room_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `task`
 --
 ALTER TABLE `task`
-  MODIFY `task_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `task_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `user_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `user_request`
 --
 ALTER TABLE `user_request`
-  MODIFY `id_urequest` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_urequest` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `user_role`
 --
 ALTER TABLE `user_role`
-  MODIFY `id_role` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_role` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `user_room`
 --
 ALTER TABLE `user_room`
-  MODIFY `user_room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `user_room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `user_task`
 --
 ALTER TABLE `user_task`
-  MODIFY `id_user_task` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_user_task` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
