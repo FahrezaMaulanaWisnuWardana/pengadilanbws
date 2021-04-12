@@ -36,20 +36,20 @@
             <div class="col-12">
                 <div class="card border-left-success shadow h-100 py-2">
                   <div class="card-body">
-                    <?=form_open('laporan/cetak-permintaan')?>
+                    <?=form_open('laporan/excel-req')?>
                       <div class="row mb-3">
                         <div class="col">
                           <label>Tanggal Awal</label>
-                          <input type="date" class="form-control" name="tgl_awal">
+                          <input type="date" class="form-control" id="tgl_awal" name="tgl_awal">
                         </div>
                         <div class="col">
                           <label>Tanggal Akhir</label>
-                          <input type="date" class="form-control"  name="tgl_akhir">
-                          <input type="hidden" name="room_id" value="<?=$ruangan['room_id']?>">
+                          <input type="date" class="form-control" id="tgl_akhir" name="tgl_akhir">
+                          <input type="hidden" name="room_id" id="room_id" value="<?=$ruangan['room_id']?>">
                         </div>
                       </div>
                       <div class="form-group">
-                        <button type="submit" class="form-control btn btn-success">Download laporan <i class="fas fa-download"></i></button>
+                        <button type="submit" class="form-control btn btn-success" id="cek">Cek laporan <i class="fas fa-download"></i></button>
                       </div>
                     <?=form_close()?>
                   </div>

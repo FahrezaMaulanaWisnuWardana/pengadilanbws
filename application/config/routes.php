@@ -18,8 +18,12 @@ $route['beranda/update-nilai'] = 'dashboard/update_score';
 $route['laporan'] = 'report';
 $route['laporan/jenis/(:any)'] = 'report/type/$1';
 $route['laporan/detail/(:any)/(:num)'] = 'report/detail/$1/$2';
+$route['laporan/req-ajax'] = 'report/req_ajax';
+$route['laporan/room-ajax'] = 'report/room_ajax';
 $route['laporan/cetak'] = 'report/cetak';
 $route['laporan/cetak-permintaan'] = 'report/request';
+$route['laporan/excel'] = 'report/excel';
+$route['laporan/excel-req'] = 'report/excel_req';
 
 $route['permintaan'] = 'request';
 $route['permintaan/simpan-permintaan'] = 'request/save';

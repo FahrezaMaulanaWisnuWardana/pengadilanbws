@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '933b1694097c92f3b5be0f357b72b60a8c4fc84e',
+    'reference' => '53375295ae1c5cb226d714c637022f4160441b5a',
     'name' => 'codeigniter/framework',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '933b1694097c92f3b5be0f357b72b60a8c4fc84e',
+      'reference' => '53375295ae1c5cb226d714c637022f4160441b5a',
     ),
     'doctrine/instantiator' => 
     array (
@@ -125,12 +125,12 @@
     ),
     'phpoffice/phpspreadsheet' => 
     array (
-      'pretty_version' => '1.16.0',
-      'version' => '1.16.0.0',
+      'pretty_version' => '1.17.1',
+      'version' => '1.17.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '76d4323b85129d0c368149c831a07a3e258b2b50',
+      'reference' => 'c55269cb06911575a126dc225a05c0e4626e5fb4',
     ),
     'phpspec/prophecy' => 
     array (

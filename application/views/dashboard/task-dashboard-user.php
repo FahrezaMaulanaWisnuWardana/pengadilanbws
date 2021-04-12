@@ -47,7 +47,7 @@
                             foreach ($tugas as $data) {
                               $no++;
                               ?>
-                                <li class="list-group-item"><?=$data['task']?></li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center"><?=$data['task']?><input type="checkbox" class="checkbox"></li>
                               <?php
                             }
                           }
@@ -60,15 +60,15 @@
                           <div class="form-group frm-cont">
                             <input type="hidden" name="room_id" value="<?=$data['room_id']?>">
                             <label class="d-block">Eviden( <small class="text-danger">Maksimal 5 foto</small> )</label>
-                            <input type="file" name="foto[]" class="img" accept="image/*" multiple="true">
+                            <input type="file" name="foto[]" class="img" accept="image/*" multiple="true" disabled>
                           </div>
-                          <button type="submit" class="btn btn-success form-control eviden">Tambah Data</button>
+                          <button type="submit" class="btn btn-success form-control eviden" disabled>Tambah Data</button>
                         <?=form_close()?>
                         <div class="btn-cont">
                           
                         </div>
                         <label class="h5 my-3">Eviden</label>
-                        <div class="task" data-id="<?=$data['room_id']?>">
+                        <div class="task text-center" data-id="<?=$data['room_id']?>">
                           
                         </div>
                       <?php
@@ -125,6 +125,15 @@
       <!-- End of Main Content -->
 	<?php $this->load->view('templates/footer-dashboard') ?>
   <script type="text/javascript">
+    $('.checkbox').on('click',function(){
+      if($('.checkbox:checked').length === $('.checkbox').length){
+        $('.img').prop('disabled',false)
+        $('.eviden').prop('disabled',false)
+      }else{
+        $('.img').prop('disabled',true)
+        $('.eviden').prop('disabled',true)
+      }
+    })
     $('.img').on('change',function(){
       if($(this).get(0).files.length>5){
         alert("Maksimal gambar hanya 5")
@@ -142,6 +151,7 @@
           imageHtml += '<img src="<?=base_url()?>assets/img/eviden/'+data.item[i]+'" style="width:200px;" class="text-center d-inline ml-1 mt-1 img-eviden">'
         }
         $('.eviden').prop('disabled','disabled')
+        $('.checkbox').remove()
         $('.eviden').remove()
         $('.frm-cont').remove()
         $('.btn-cont').html('<button class="btn btn-success edit form-control" data-id="'+data.id+'"><i class="fas fa-pen"></i></button>')

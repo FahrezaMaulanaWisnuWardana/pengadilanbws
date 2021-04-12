@@ -16,6 +16,50 @@
 			$data['ruangan'] = $this->rmodel->read()->result_array();
 			$this->load->view('dashboard/report/index',$data);
 		}
+		function excel(){
+			$data['judul']="Excel";
+			$data['pimpinan'] = $this->r_model->user(['id_role'=>'4','user_id'=>$this->input->post('pimpinan_id')])->row_array();
+			if($this->input->post('tgl_awal')!=="" && $this->input->post('tgl_akhir')!==""){
+				
+				$d1 = $this->input->post('tgl_awal');
+			    $d2 = $this->input->post('tgl_akhir');
+			    $awl = round(abs(strtotime($d1))/86400);
+			    $akhir = round(abs(strtotime($d2))/86400);
+			    if($awl>$akhir){
+			        $this->session->set_flashdata(array(
+			            'message' => 'Tanggal tidak valid',
+			            'type' => 'danger'
+			        ));
+			        header('Location: ' . $_SERVER['HTTP_REFERER']);
+		    	}elseif (strftime('%m', strtotime($this->input->post('tgl_awal'))) < strftime('%m', strtotime($this->input->post('tgl_akhir')))) {
+			        $this->session->set_flashdata(array(
+			            'message' => 'Bulan tidak valid',
+			            'type' => 'danger'
+			        ));
+			        header('Location: ' . $_SERVER['HTTP_REFERER']);
+			    }else{
+					$data['lap'] = $this->r_model->laporan('DATE(date) BETWEEN "'.strftime('%Y-%m-%d', strtotime($this->input->post('tgl_awal'))).'" AND "'.strftime('%Y-%m-%d', strtotime($this->input->post('tgl_akhir'))).'" AND room_id="'.$this->input->post('room_id').'" AND user_id="'.$this->input->post('user_id').'"' )->result_array();
+					$data['ruangan'] = $this->r_model->ruangan(['room_id'=>$this->input->post('room_id')])->row_array();
+					$data['tugas'] = $this->r_model->tugas(['room_id'=>$this->input->post('room_id')])->result_array();
+					$data['user'] = $this->r_model->user(['user_id'=>$this->input->post('user_id')])->row_array();
+					$data['pimpinan'] = $this->r_model->user(['id_role'=>'4','user_id'=>$this->input->post('pimpinan_id')])->row_array();
+			    }
+			}else{
+				$data['lap'] = $this->r_model->laporan('MONTH(date)=MONTH(CURDATE()) AND YEAR(date)=YEAR(CURDATE()) AND room_id="'.$this->input->post('room_id').'" AND user_id="'.$this->input->post('user_id').'"')->result_array();
+				$data['ruangan'] = $this->r_model->ruangan(['room_id'=>$this->input->post('room_id')])->row_array();
+				$data['tugas'] = $this->r_model->tugas(['room_id'=>$this->input->post('room_id')])->result_array();
+				$data['user'] = $this->r_model->user(['user_id'=>$this->input->post('user_id')])->row_array();
+				$data['pimpinan'] = $this->r_model->user(['id_role'=>'4','user_id'=>$this->input->post('pimpinan_id')])->row_array();
+			}
+			$this->load->view('dashboard/report/excel',$data);
+		}
+		function excel_req(){
+			$data['judul']="Excel Permintaan";
+			$data['ruangan'] = $this->r_model->ruangan(['room_id'=>$this->input->post('room_id')])->row_array();
+
+			$data['lap'] = ($this->input->post('tgl_awal')!=="" && $this->input->post('tgl_akhir')!=="")?$this->r_model->laporan_permintaan('DATE(user_request.created_at) BETWEEN "'.strftime('%Y-%m-%d', strtotime($this->input->post('tgl_awal'))).'" AND "'.strftime('%Y-%m-%d', strtotime($this->input->post('tgl_akhir'))).'" AND user_request.room_id="'.$this->input->post('room_id').'"')->result_array() : $this->r_model->laporan_permintaan(['user_request.room_id'=>$this->input->post('room_id')])->result_array();
+			$this->load->view('dashboard/report/excel-req',$data);
+		}
 		function type($jenis){
 			if ($jenis==="ruangan") {
 				$data['judul']="Laporan Ruangan";
@@ -249,9 +293,6 @@
 			        ));
 			        header('Location: ' . $_SERVER['HTTP_REFERER']);
 			    }
-			    function dateDiff ($d1, $d2) {
-				    return round(abs(strtotime($d1) - strtotime($d2))/86400);
-				}
 			    $selisih = dateDiff($d1,$d2);
 
 
@@ -479,6 +520,10 @@
 			header('Content-Disposition: attachment;filename="'.$filename.'.xlsx');
 			header('Cache-Control:max-age=0');
 			$writer->save('php://output');
+		}
+
+	    function dateDiff ($d1, $d2) {
+		    return round(abs(strtotime($d1) - strtotime($d2))/86400);
 		}
 	}
  ?>

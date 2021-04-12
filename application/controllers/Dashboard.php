@@ -8,17 +8,26 @@
 			is_logged_in();
 			$this->load->model('Room_model','rmodel');
 			$this->load->model('Dashboard_model','dmodel');
+			$this->load->model('Request_model','req_model');
+			$this->load->model('User_model','u_model');
 		}
 		function index(){
-			if($this->session->role!=="2"){
+			if($this->session->role==="1" || $this->session->role==="4"){
 				$data['judul'] = "Dashboard";
 				$data['ruangan'] = $this->rmodel->read()->result_array();
-			}else{
+				$this->load->view('dashboard/index',$data);
+			}else if($this->session->role==="2" || $this->session->role==="5"){
 				$data['judul'] = "Tugas Hari ini";
 				$user_id = $this->session->userdata('user_id');
 				$data['ruangan'] = $this->rmodel->room_by_user($user_id)->result_array();
+				$this->load->view('dashboard/index',$data);
+			}else if($this->session->role==="6"){
+				$data['judul'] = "Permintaan";
+				$data['user']  = $this->u_model->read()->result_array();
+				$data['room'] = $this->rmodel->read()->result_array();
+				$data['req'] = $this->req_model->read(null,false)->result_array();
+				$this->load->view('Dashboard/request/index',$data);
 			}
-			$this->load->view('dashboard/index',$data);
 		}
 		function task($room_id,$user_id=null){
 			$data['judul']="Tugas anda";
